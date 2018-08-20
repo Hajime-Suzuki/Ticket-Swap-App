@@ -1,0 +1,27 @@
+http://localhost:4000/users
+
+###
+
+http://localhost:4000/users/test
+
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "firstName": "Hajime",
+  "lastName": "Suzuki",
+  "email": "email@email.com",
+  "password": "ashtasht"
+}
+###
+
+POST http://localhost:4000/logins
+Content-Type: application/json
+
+{
+  "firstName": "Hajime",
+  "lastName": "Suzuki",
+  "email": "email@email.com",
+  "password": "ashtasht"
+}
