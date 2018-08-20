@@ -3,7 +3,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne
+  ManyToOne,
+  BeforeInsert,
+  RelationId
 } from 'typeorm'
 import Ticket from './Ticket'
 import User from './User'
@@ -16,9 +18,15 @@ export default class Comment extends BaseEntity {
   @Column('text')
   content: string
 
+  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date
+
   @ManyToOne(() => Ticket, ticket => ticket.comments)
   ticket: Ticket
 
   @ManyToOne(() => User, user => user.comments)
-  user: User[]
+  user: User
+
+  // @RelationId((comment: Comment) => comment.user)
+  // userId: number
 }

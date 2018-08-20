@@ -12,9 +12,10 @@ import { verify } from './src/jwt'
 import UserController from './controllers/users'
 import User from './entities/User'
 import LoginController from './controllers/logins'
+import PopulateController from './controllers/populate'
 
 export const app = createKoaServer({
-  controllers: [UserController, LoginController],
+  controllers: [UserController, LoginController, PopulateController],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization
     if (header && header.startsWith('Bearer ')) {

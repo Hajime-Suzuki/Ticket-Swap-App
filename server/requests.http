@@ -1,6 +1,9 @@
 http://localhost:4000/users
 
 ###
+http://localhost:4000/users/1
+
+###
 
 http://localhost:4000/users/test
 
@@ -25,3 +28,8 @@ Content-Type: application/json
   "email": "email@email.com",
   "password": "ashtasht"
 }
+
+###
+http://localhost:4000/populate
+
+

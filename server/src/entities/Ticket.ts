@@ -15,7 +15,7 @@ export default class Ticket extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('int')
+  @Column('numeric', { precision: 5, scale: 2 })
   price: number
 
   @Column('text')

@@ -19,14 +19,14 @@ export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @IsString()
-  @MinLength(2)
-  @Column('text')
+  // @IsString()
+  // @MinLength(2)
+  @Column('varchar', { length: 255 })
   firstName: string
 
-  @IsString()
-  @MinLength(2)
-  @Column('text')
+  // @IsString()
+  // @MinLength(2)
+  @Column('varchar', { length: 255 })
   lastName: string
 
   @IsEmail()
