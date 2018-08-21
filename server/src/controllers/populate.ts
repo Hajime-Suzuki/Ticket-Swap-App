@@ -30,9 +30,9 @@ export default class PopulateController {
       .fill('')
       .map(() => {
         return Event.create({
-          name: faker.commerce.product(),
+          name: faker.commerce.productName(),
           description: faker.lorem.sentence(),
-          image: faker.image.imageUrl(),
+          image: 'https://fakeimg.pl/1500x1200/?text=Event',
           startDate: faker.date.between('2018-08-20', '2018-08-31'),
           endDate: faker.date.between('2018-09-01', '2018-9-30')
         })
@@ -56,7 +56,7 @@ export default class PopulateController {
         return Ticket.create({
           price: Number(faker.commerce.price(30, 300)),
           description: faker.lorem.sentence(),
-          image: faker.image.imageUrl(),
+          image: 'https://fakeimg.pl/1500x1200/?text=Ticket',
           event
         })
       })

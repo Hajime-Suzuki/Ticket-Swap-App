@@ -6,7 +6,8 @@ import {
   OneToMany,
   OneToOne,
   JoinTable,
-  BeforeInsert
+  BeforeInsert,
+  AfterLoad
 } from 'typeorm'
 import { Exclude } from 'class-transformer'
 import { MinLength, IsString, IsEmail } from 'class-validator'
@@ -36,7 +37,7 @@ export default class User extends BaseEntity {
   @IsString()
   @MinLength(6)
   @Column('text')
-  // @Exclude({ toPlainOnly: true })
+  @Exclude({ toPlainOnly: true })
   password: string
 
   @OneToMany(() => Ticket, ticket => ticket.user)

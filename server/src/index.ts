@@ -1,21 +1,25 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 import 'reflect-metadata'
-import {
-  Action,
-  BadRequestError,
-  useKoaServer,
-  createKoaServer
-} from 'routing-controllers'
+import { Action, BadRequestError, createKoaServer } from 'routing-controllers'
 import { connectDatabase } from './database'
 import { verify } from './src/jwt'
 import UserController from './controllers/users'
 import User from './entities/User'
 import LoginController from './controllers/logins'
 import PopulateController from './controllers/populate'
+import EventController from './controllers/events'
+import TicketController from './controllers/tickets'
 
 export const app = createKoaServer({
-  controllers: [UserController, LoginController, PopulateController],
+  cors: true,
+  controllers: [
+    UserController,
+    LoginController,
+    EventController,
+    TicketController,
+    PopulateController
+  ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization
     if (header && header.startsWith('Bearer ')) {
