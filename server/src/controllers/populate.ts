@@ -59,8 +59,8 @@ export default class PopulateController {
           price: Number(faker.commerce.price(30, 300)),
           description: faker.lorem.sentence(),
           image: 'https://fakeimg.pl/1500x1200/?text=Ticket',
-          event,
-          createdAt: faker.date.between('2018-08-1', new Date())
+          createdAt: faker.date.between('2018-08-1', new Date()),
+          event
         })
       })
 

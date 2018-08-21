@@ -2,14 +2,29 @@ import React, { Component } from 'react'
 import SingleTicket from './SingleTicket'
 import { fetchEventsAndRelations } from '../store/actions/events'
 import { connect } from 'react-redux'
+import axios from 'axios'
+import { calculateFraudRisk } from '../lib/calculateFraudRisk'
 
 class SingleTicketContainer extends Component {
-  componentDidMount() {
-    if (!this.props.currentTicket) this.props.fetchEventsAndRelations()
+  state = {
+    count: null
   }
+  componentDidMount() {
+    if (!this.props.currentTicket) {
+      this.props.fetchEventsAndRelations()
+    }
+    axios
+      .get(
+        `http://localhost:4000/users/count-tickets/${
+          this.props.match.params.ticketId
+        }`
+      )
+      .then(({ data }) => this.setState({ count: data }))
+  }
+
   render() {
-    console.log(this.props.currentTicket)
-    console.log(this.props.currentEvent)
+    // console.log(this.props.currentTicket)
+    // console.log(this.props.currentTickets)
 
     return (
       this.props.currentTicket &&
@@ -17,6 +32,8 @@ class SingleTicketContainer extends Component {
         <SingleTicket
           ticket={this.props.currentTicket}
           event={this.props.currentEvent}
+          tickets={this.props.currentTickets}
+          count={this.state.count}
         />
       )
     )
@@ -25,6 +42,7 @@ class SingleTicketContainer extends Component {
 
 const mapSateToProps = (state, props) => {
   const { ticketId } = props.match.params
+
   const currentTicket =
     state.events &&
     state.events
@@ -33,11 +51,13 @@ const mapSateToProps = (state, props) => {
       }, [])
       .find(ticket => ticket.id === Number(ticketId))
 
+  const currentEventData =
+    state.events &&
+    state.events.find(data => data.event.id === currentTicket.eventId)
+
   return {
-    // events: state.events && state.events.map(event => event.event)
-    currentEvent:
-      state.events &&
-      state.events.find(data => data.event.id === currentTicket.eventId).event,
+    currentEvent: currentEventData && currentEventData.event,
+    currentTickets: currentEventData && currentEventData.tickets,
     currentTicket
   }
 }

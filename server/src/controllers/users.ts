@@ -10,6 +10,7 @@ import User from '../entities/User'
 import { create } from 'domain'
 import Ticket from '../entities/Ticket'
 import Event from '../entities/Event'
+import { getRepository } from 'typeorm'
 
 @JsonController('/users')
 export default class UserController {
@@ -19,27 +20,48 @@ export default class UserController {
     return user
   }
 
-  @Get('/test')
-  async test() {
-    const event = await Event.create({
-      name: 'event',
-      description: 'sohie',
-      image: 'asihote',
-      startDate: new Date(),
-      endDate: new Date()
-    }).save()
-    const user = await User.findOne({ id: 1 })
-    const tickets = Ticket.create({
-      price: 200,
-      description: 'something',
-      image: 'image',
-      user,
-      event
-    }).save()
+  @Get('/count-tickets/:id')
+  async test(@Param('id') ticketId: number) {
+    // const data = await User.findOne(
+    //   { id },
+    //   { select: ['id'], relations: ['tickets'], where:{
+    //     {tickets.id: id}
+    //   } }
+    // )
+    const { id } = await User.createQueryBuilder('u')
+      .select(['u.id'])
+      .innerJoin('u.tickets', 't')
+      .where('t.id =:id', { id: ticketId })
+      .getOne()
 
-    const t = Ticket.findOne({ id: 1 }, { relations: ['user', 'event'] })
-    return t
+    const { tickets } = await User.createQueryBuilder('u')
+      .select(['u.id', 't.id'])
+      .innerJoin('u.tickets', 't')
+      .where('u.id =:id', { id })
+      .getOne()
+
+    // console.log()
+
+    // const data = await User.createQueryBuilder('u')
+    //   .leftJoinAndSelect('u.tickets', 't')
+    //   .where(qb => {
+    //     const subQuery = qb.subQuery()
+    //       .select(['u.id'])
+    //       .from(Tickets, "t")
+    //       .where("user.registered = :registered")
+    //       .getQuery();
+    //     return 'u.id = ' subQuery;
+    //   })
+    //   .getOne()
+
+    // const data = await Ticket.createQueryBuilder('t')
+    //   .leftJoinAndSelect('t.user', 'u')
+    //   .where('t.id = :id', { id: 1 })
+    //   .getOne()
+
+    return tickets.length
   }
+
   // @Authorized()
   // @Get('/users/:id([0-9]+)')
   // getUser(@Param('id') id: number) {

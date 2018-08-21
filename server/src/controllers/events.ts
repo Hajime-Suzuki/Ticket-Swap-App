@@ -1,5 +1,6 @@
 import { Get, JsonController, QueryParam } from 'routing-controllers'
 import Event from '../entities/Event'
+import User from '../entities/User'
 
 @JsonController('/events')
 export default class EventController {
@@ -40,44 +41,21 @@ export default class EventController {
   @Get('/test')
   async test() {
     const events = await Event.createQueryBuilder('e')
-      .select([
-        'e.id',
-        'e.name',
-        'e.image',
-        'e.startDate',
-        'e.endDate',
-        'e.description',
-        't.id',
-        't.price',
-        't.description',
-        't.image',
-        't.event_id',
-        'u.id',
-        'u.firstName',
-        'u.lastName',
-        'u.email',
-        // 'u.admin',
-        'c.id',
-        'c.content',
-        'c.createdAt',
-        'cu.id',
-        'cu.firstName',
-        'cu.lastName'
-      ])
-      .leftJoin('e.tickets', 't')
-      .leftJoin('t.user', 'u')
-      .leftJoin('t.comments', 'c')
-      .leftJoin('c.user', 'cu')
+      .leftJoinAndSelect('e.tickets', 't')
+      .leftJoinAndSelect('t.user', 'u')
+      // .addSelect('COUNT(u.tickets)', 'sum')
       .take(4)
       .skip(0)
       .orderBy('e.id')
       .getMany()
 
-    // const events = await Event.find({
-    //   relations: ['tickets', 'tickets.comments', 'tickets.comments.user']
-    // })
+    // const events = await User.createQueryBuilder('user')
+    //   // .select(['u.id', 'u.firstName'])
+    //   // .addSelect('COUNT(u.tickets)', 'sum')
+    //   .select('COUNT(user.tickets)', 'sum')
+    //   .getRawOne()
 
-    console.log(events[0].tickets[0].comments)
+    // console.log(events[0])
 
     return events
   }
