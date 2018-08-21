@@ -11,7 +11,9 @@ export default class PopulateController {
     const eventAmount = 30
     const ticketAmount = 100
     const userAmount = 30
-    const commentAmount = 50
+    const commentAmount = 100
+
+    faker.seed(1)
 
     const userArr = Array(userAmount)
       .fill('')
@@ -57,7 +59,8 @@ export default class PopulateController {
           price: Number(faker.commerce.price(30, 300)),
           description: faker.lorem.sentence(),
           image: 'https://fakeimg.pl/1500x1200/?text=Ticket',
-          event
+          event,
+          createdAt: faker.date.between('2018-08-1', new Date())
         })
       })
 

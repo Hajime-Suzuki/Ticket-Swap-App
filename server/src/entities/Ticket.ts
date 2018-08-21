@@ -24,6 +24,9 @@ export default class Ticket extends BaseEntity {
   @Column('text')
   image: string
 
+  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date
+
   @ManyToOne(() => User, user => user.tickets)
   user: User
 

@@ -13,26 +13,21 @@ export default class EventController {
         'e.startDate',
         'e.endDate',
         'e.description',
-        't.id',
-        't.price',
-        't.description',
-        't.image',
-        't.event_id',
-        'u.id',
-        'u.firstName',
-        'u.lastName',
-        'u.email',
+        // 'u.id',
+        // 'u.firstName',
+        // 'u.lastName',
+        // 'u.email',
         // 'u.admin',
-        'c.id',
-        'c.content',
-        'c.createdAt',
+        // 'c.id',
+        // 'c.content',
+        // 'c.createdAt',
         'cu.id',
         'cu.firstName',
         'cu.lastName'
       ])
-      .leftJoin('e.tickets', 't')
-      .leftJoin('t.user', 'u')
-      .leftJoin('t.comments', 'c')
+      .leftJoinAndSelect('e.tickets', 't')
+      .leftJoinAndSelect('t.user', 'u')
+      .leftJoinAndSelect('t.comments', 'c')
       .leftJoin('c.user', 'cu')
       .take(4)
       .skip(0)
