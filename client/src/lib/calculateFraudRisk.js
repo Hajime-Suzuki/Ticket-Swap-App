@@ -1,5 +1,6 @@
 export const calculateFraudRisk = (ticket, tickets, count) => {
   let risk = 2
+  // Even if the risk gets <2 ro > 98 during the process, I keep it as it is until the end. Otherwise calculation is dependent on the order of condition.
 
   const createdHour = new Date(ticket.createdAt).getHours()
   const avarage =
@@ -35,6 +36,8 @@ export const calculateFraudRisk = (ticket, tickets, count) => {
     console.log('more comments')
     risk += 6
   }
+
+  risk = Math.round(risk)
 
   if (risk > 2 && risk < 98) return risk
   else if (risk > 98) return 98
