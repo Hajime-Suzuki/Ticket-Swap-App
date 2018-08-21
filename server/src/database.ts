@@ -52,6 +52,6 @@ const defaultConfig = {
     process.env.DATABASE_URL ||
     'postgres://postgres:secret@localhost:5432/game',
   entities: [User, Event, Ticket, Comment],
-  synchronize: true
-  // logging: true,
+  synchronize: true,
+  logging: true
 }

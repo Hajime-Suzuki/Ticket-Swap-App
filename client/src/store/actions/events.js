@@ -3,23 +3,36 @@ import { eventsAxios as axios } from '../../axios/events'
 
 export const fetchEventsAndRelations = () => async (dispatch, getState) => {
   try {
+    console.log('fetch')
+
     const { data } = await axios.get('/', {
       params: {
         pageNum: getState().pageNum
       }
     })
 
-    // const separateData = data.map(d => {
-    //   const { tickets, ...event } = d
-    //   return {
-    //     event,
-    //     tickets
-    //   }
-    // })
+    const transformedData = data.map(d => {
+      let { tickets, ...event } = d
+      tickets = tickets.map(t => ({ ...t, eventId: event.id }))
+      return {
+        event,
+        tickets
+      }
+    })
 
-    // console.log(separateData)
+    // const events = transformedData.reduce((obj, data) => {
+    //   obj[data.event.id] = data.event
+    //   return obj
+    // }, {})
 
-    dispatch({ type: FETCH_EVENTS_AND_RELATIONS, payload: data })
+    // const tickets = transformedData.reduce((obj, data) => {
+    //   obj[data.event.id] = data.event
+    //   return obj
+    // }, {})
+
+    // console.log(tickets)
+
+    dispatch({ type: FETCH_EVENTS_AND_RELATIONS, payload: transformedData })
   } catch (e) {
     console.log(e)
   }

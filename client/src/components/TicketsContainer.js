@@ -1,26 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Events from './Events'
-import { fetchSingleTicket } from '../store/actions/tickets'
 import { fetchEventsAndRelations } from '../store/actions/events'
+import Tickets from './Tickets'
 
-class EventsContainer extends Component {
+class TicketsContainer extends Component {
   componentDidMount() {
-    if (!this.props.events) {
-      fetchEventsAndRelations()
-    }
+    if (!this.props.currentTickets) this.props.fetchEventsAndRelations()
   }
   render() {
-    if (!this.props.tickets) return null
-    return <Events tickets={this.props.tickets} />
+    // console.log(this.props.currentTickets)
+    if (!this.props.currentTickets) return null
+
+    return <Tickets tickets={this.props.currentTickets} />
   }
 }
-const mapSateToProps = state => ({
-  events: state.events,
-  tickets: state.tickets,
-  pageNum: state.pageNum
-})
+const mapSateToProps = (state, props) => {
+  const { eventId } = props.match.params
+
+  return {
+    events: state.events,
+    currentTickets:
+      state.events &&
+      state.events.find(data => data.event.id === Number(eventId)).tickets
+  }
+}
 export default connect(
   mapSateToProps,
   { fetchEventsAndRelations }
-)(EventsContainer)
+)(TicketsContainer)
