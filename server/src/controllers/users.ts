@@ -1,27 +1,33 @@
+import { IsString } from 'class-validator'
 import {
-  JsonController,
-  Post,
-  Get,
+  BadRequestError,
   Body,
-  Authorized,
-  Param
+  Get,
+  JsonController,
+  Param,
+  Post
 } from 'routing-controllers'
 import User from '../entities/User'
-import { create } from 'domain'
-import Ticket from '../entities/Ticket'
-import Event from '../entities/Event'
-import { getRepository } from 'typeorm'
+import { sign } from '../jwt/jwt'
+
+class AuthenticatePayload {
+  @IsString()
+  email: string
+
+  @IsString()
+  password: string
+}
 
 @JsonController('/users')
 export default class UserController {
   @Post('/')
   async signup(@Body() data: User) {
     const user = await User.create(data).save()
-    return user
+    return { jwt: user.generateToken() }
   }
 
-  @Get('/count-tickets/:id')
-  async test(@Param('id') ticketId: number) {
+  @Get('/count-tickets/:ticketId')
+  async test(@Param('ticketId') ticketId: number) {
     // const data = await User.findOne(
     //   { id },
     //   { select: ['id'], relations: ['tickets'], where:{
@@ -80,5 +86,20 @@ export default class UserController {
       { id: id },
       { select: ['firstName', 'email', 'id'], relations: ['comments'] }
     )
+  }
+
+  @Post('/logins')
+  async authenticate(@Body() { email, password }: AuthenticatePayload) {
+    console.log('login')
+
+    const user = await User.findOne({ where: { email } })
+
+    if (!user || !user.id)
+      throw new BadRequestError('Username and password do not match')
+
+    if (!(await user.checkPassword(password)))
+      throw new BadRequestError('Username and password do not match')
+
+    return { jwt: user.generateToken() }
   }
 }

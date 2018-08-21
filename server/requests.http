@@ -8,9 +8,30 @@ http://localhost:4000/tickets/1
 
 ###
 http://localhost:4000/users
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "email":"asht@ahst.asht",
+  "firstName": "Hajime",
+  "lastName": "Suzuki",
+  "password": "ashtasht"
+}
+###
+POST http://localhost:4000/users/logins
+Content-Type: application/json
+
+{
+  "email":"asht@ahst.asht",
+  "password": "ashtasht"
+}
 
 ###
-http://localhost:4000/users/1
+http://localhost:4000/users/count-tickets/42
+
+###
+http://localhost:4000/users/
 
 ###
 

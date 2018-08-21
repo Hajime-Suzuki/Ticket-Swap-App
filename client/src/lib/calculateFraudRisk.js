@@ -1,6 +1,11 @@
 export const calculateFraudRisk = (ticket, tickets, count) => {
+  if (!ticket || !tickets.length || !count) {
+    return null
+  }
+
   let risk = 2
-  // Even if the risk gets <2 ro > 98 during the process, I keep it as it is until the end. Otherwise calculation is dependent on the order of condition.
+
+  // Even if the risk gets <2 ro > 98 during the process, I keep it as it is until the end. Otherwise calculation is dependent on the order of the conditions.
 
   const createdHour = new Date(ticket.createdAt).getHours()
   const avarage =

@@ -14,6 +14,7 @@ import { MinLength, IsString, IsEmail } from 'class-validator'
 import * as bcrypt from 'bcrypt'
 import Ticket from './Ticket'
 import Comment from './Comment'
+import { sign } from '../jwt/jwt'
 
 @Entity()
 export default class User extends BaseEntity {
@@ -56,5 +57,9 @@ export default class User extends BaseEntity {
 
   checkPassword(rawPassword: string): Promise<boolean> {
     return bcrypt.compare(rawPassword, this.password)
+  }
+
+  generateToken(): string {
+    return sign({ id: this.id })
   }
 }

@@ -1,5 +1,5 @@
 import { FETCH_EVENTS_AND_RELATIONS } from '../constants/actionTypes'
-import { eventsAxios as axios } from '../../axios/events'
+import { eventsAxios as axios } from '../../axios/instances'
 
 export const fetchEventsAndRelations = () => async (dispatch, getState) => {
   try {

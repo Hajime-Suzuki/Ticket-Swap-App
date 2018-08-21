@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import SingleTicket from './SingleTicket'
-import { fetchEventsAndRelations } from '../store/actions/events'
+
 import { connect } from 'react-redux'
-import axios from 'axios'
-import { calculateFraudRisk } from '../lib/calculateFraudRisk'
+
+import { userAxios as axios } from '../../axios/instances'
+import { fetchEventsAndRelations } from '../../store/actions/events'
 
 class SingleTicketContainer extends Component {
   state = {
@@ -13,29 +14,21 @@ class SingleTicketContainer extends Component {
     if (!this.props.currentTicket) {
       this.props.fetchEventsAndRelations()
     }
+
     axios
-      .get(
-        `http://localhost:4000/users/count-tickets/${
-          this.props.match.params.ticketId
-        }`
-      )
+      .get(`/count-tickets/${this.props.match.params.ticketId}`)
       .then(({ data }) => this.setState({ count: data }))
   }
 
   render() {
-    // console.log(this.props.currentTicket)
-    // console.log(this.props.currentTickets)
-
+    if (!this.props.currentTicket || !this.props.currentEvent) return null
     return (
-      this.props.currentTicket &&
-      this.props.currentEvent && (
-        <SingleTicket
-          ticket={this.props.currentTicket}
-          event={this.props.currentEvent}
-          tickets={this.props.currentTickets}
-          count={this.state.count}
-        />
-      )
+      <SingleTicket
+        ticket={this.props.currentTicket}
+        event={this.props.currentEvent}
+        tickets={this.props.currentTickets}
+        count={this.state.count}
+      />
     )
   }
 }
@@ -53,8 +46,9 @@ const mapSateToProps = (state, props) => {
 
   const currentEventData =
     state.events &&
-    state.events.find(data => data.event.id === currentTicket.eventId)
-
+    state.events.find(data => {
+      return currentTicket ? data.event.id === currentTicket.eventId : false
+    })
   return {
     currentEvent: currentEventData && currentEventData.event,
     currentTickets: currentEventData && currentEventData.tickets,

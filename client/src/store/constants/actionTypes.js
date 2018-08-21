@@ -2,3 +2,13 @@ export const FETCH_EVENTS_AND_RELATIONS = 'FETCH_EVENTS_AND_RELATIONS'
 // export const FETCH_SINGLE_TICKET = 'FETCH_SINGLE_TICKET'
 export const NEXT_PAGE = 'NEXT_PAGE'
 export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
+
+export const SIGN_UP_USER = 'SIGN_UP_USER'
+export const LOG_IN_USER = 'LOG_IN_USER'
+export const LOG_OUT_USER = 'LOG_OUT_USER'
+
+export const LOG_IN_FAIL = 'LOG_IN_FAIL'
+export const LOGIN_SUCCESS = 'LOG_IN_FAIL'
+export const SIGN_UP_FAIL = 'SIGN_UP_FAIL'
+export const SIGN_UP_SUCCES = 'SIGN_UP_SUCCES'
+export const CLEAR_ERROR_MESSAGES = 'CLEAR_ERROR_MESSAGES'

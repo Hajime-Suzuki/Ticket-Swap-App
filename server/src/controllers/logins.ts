@@ -6,7 +6,7 @@ import {
   BadRequestError
 } from 'routing-controllers'
 import User from '../entities/User'
-import { sign } from '../src/jwt'
+import { sign } from '../jwt/jwt'
 
 class AuthenticatePayload {
   @IsString()

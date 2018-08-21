@@ -3,7 +3,7 @@ dotenv.config()
 import 'reflect-metadata'
 import { Action, BadRequestError, createKoaServer } from 'routing-controllers'
 import { connectDatabase } from './database'
-import { verify } from './src/jwt'
+import { verify } from './jwt/jwt'
 import UserController from './controllers/users'
 import User from './entities/User'
 import LoginController from './controllers/logins'
