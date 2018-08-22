@@ -27,7 +27,7 @@ class SingleTicketContainer extends Component {
         ticket={this.props.currentTicket}
         event={this.props.currentEvent}
         tickets={this.props.currentTickets}
-        currentUserId={this.props.currentUserId}
+        currentUser={this.props.currentUser}
       />
     )
   }
@@ -53,7 +53,7 @@ const mapSateToProps = (state, props) => {
     currentEvent: currentEventData && currentEventData.event,
     currentTickets: currentEventData && currentEventData.tickets,
     currentTicket,
-    currentUserId: state.currentUser && state.currentUser.id
+    currentUser: state.currentUser
   }
 }
 export default connect(

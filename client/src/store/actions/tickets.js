@@ -18,3 +18,20 @@ export const addTicket = (ticketData, eventId) => async (
     console.log(e.response.data)
   }
 }
+
+export const updateTicket = (ticketData, ticketId) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    await axios.patch(
+      `${ticketId}`,
+      { ticketData },
+      { headers: { Authorization: getState().currentUser.token } }
+    )
+
+    dispatch(fetchEventsAndRelations())
+  } catch (e) {
+    console.log(e.response.data.message)
+  }
+}

@@ -8,7 +8,8 @@ import {
   Authorized,
   CurrentUser,
   NotFoundError,
-  BodyParam
+  BodyParam,
+  Patch
 } from 'routing-controllers'
 import Event from '../entities/Event'
 import Ticket from '../entities/Ticket'
@@ -94,6 +95,16 @@ export default class TicketController {
     //   .leftJoin('u.tickets', 'ut')
     //   .where('u.id=:id', { id: 32 })
     //   .getOne()
+    return true
+  }
+
+  @Authorized()
+  @Patch('/:ticketId')
+  async updateTicke(
+    @Param('ticketId') ticketId: number,
+    @BodyParam('ticketData') ticketData: TicketData
+  ) {
+    await Ticket.update(ticketId, { ...ticketData })
     return true
   }
 }
