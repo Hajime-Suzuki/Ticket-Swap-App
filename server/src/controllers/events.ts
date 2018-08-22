@@ -1,4 +1,4 @@
-import { Get, JsonController, QueryParam } from 'routing-controllers'
+import { Get, JsonController, QueryParam, BodyParam } from 'routing-controllers'
 import Event from '../entities/Event'
 import User from '../entities/User'
 import Ticket from '../entities/Ticket'
@@ -7,35 +7,6 @@ import Ticket from '../entities/Ticket'
 export default class EventController {
   @Get('/')
   async getAllEvents(@QueryParam('pageNum') pageNum: number) {
-    // const events = await Event.createQueryBuilder('e')
-    //   .select([
-    //     'e.id',
-    //     'e.name',
-    //     'e.image',
-    //     'e.startDate',
-    //     'e.endDate',
-    //     'e.description',
-    //     // 'u.id',
-    //     // 'u.firstName',
-    //     // 'u.lastName',
-    //     // 'u.email',
-    //     // 'u.admin',
-    //     // 'c.id',
-    //     // 'c.content',
-    //     // 'c.createdAt',
-    //     'cu.id',
-    //     'cu.firstName',
-    //     'cu.lastName'
-    //   ])
-    //   .leftJoinAndSelect('e.tickets', 't')
-    //   .leftJoinAndSelect('t.user', 'u')
-    //   .leftJoinAndSelect('t.comments', 'c')
-    //   .leftJoin('c.user', 'cu')
-    //   .take(4)
-    //   .skip(0)
-    //   .orderBy('e.id')
-    //   .getMany()
-
     let events = await Event.createQueryBuilder('e')
       .leftJoinAndSelect('e.tickets', 't')
       .leftJoinAndSelect('t.user', 'u')
@@ -52,17 +23,17 @@ export default class EventController {
         'cu.firstName',
         'cu.lastName'
       ])
-
       .where('e.endDate > :date', { date: new Date() })
       .orderBy({
         'e.endDate': 'ASC'
       })
+      // multiple orderby doesn't work
       .take(4)
       .skip(4 * pageNum - 4)
       .printSql()
       .getMany()
 
-    console.log(events.length)
+    // console.log(events.length)
 
     const { count } = await Event.createQueryBuilder('e')
       .select('COUNT (e.id)', 'count')
@@ -72,29 +43,73 @@ export default class EventController {
     return { events, count: Math.ceil(count / 4) }
   }
 
+  @Get('/filter')
+  async filterEvents(
+    @QueryParam('name') name: string,
+    @QueryParam('pageNum') pageNum: number,
+    @QueryParam('date') date: Date
+  ) {
+    const events = await Event.createQueryBuilder('e')
+      .leftJoinAndSelect('e.tickets', 't')
+      .leftJoinAndSelect('t.user', 'u')
+      .leftJoin('t.comments', 'c')
+      .leftJoin('c.user', 'cu')
+      .leftJoin('u.tickets', 'ut')
+      .select([
+        'e',
+        't',
+        'u',
+        'c',
+        'ut.id',
+        'cu.id',
+        'cu.firstName',
+        'cu.lastName'
+      ])
+      .where('e.name Ilike :name', { name: `%${name}%` })
+      .andWhere('e.endDate > :date', { date: date || new Date() })
+      // .take(4)
+      // .skip(4 * pageNum - 4)
+      .getMany()
+
+    console.log(events)
+
+    // const { count } = await Event.createQueryBuilder('e')
+    //   .select('COUNT (e.id)', 'count')
+    //   .where('e.name Ilike :name', { name: `%${name}%` })
+    //   .andWhere('e.endDate > :date', { date: new Date() })
+    //   .getRawOne()
+
+    // console.log('total', count)
+
+    return {
+      events
+      // count: Math.ceil(count / 4)
+    }
+  }
+
   @Get('/test')
   async test() {
     const events = await Event.createQueryBuilder('e')
 
-      // .leftJoinAndSelect('e.tickets', 't')
-      // .leftJoinAndSelect('t.user', 'u')
-      // .leftJoin('t.comments', 'c')
-      // .leftJoin('c.user', 'cu')
-      // .leftJoin('u.tickets', 'ut')
-      // .select([
-      //   'e',
-      //   't',
-      //   'u',
-      //   'c',
-      //   'ut.id',
-      //   'cu.id',
-      //   'cu.firstName',
-      //   'cu.lastName'
-      // ])
-      .take(4)
-      .skip(0)
-      .orderBy('e.id')
-      .getMany()
+    // .leftJoinAndSelect('e.tickets', 't')
+    // .leftJoinAndSelect('t.user', 'u')
+    // .leftJoin('t.comments', 'c')
+    // .leftJoin('c.user', 'cu')
+    // .leftJoin('u.tickets', 'ut')
+    // .select([
+    //   'e',
+    //   't',
+    //   'u',
+    //   'c',
+    //   'ut.id',
+    //   'cu.id',
+    //   'cu.firstName',
+    //   'cu.lastName'
+    // ])
+    // .take(4)
+    // .skip(0)
+    // .orderBy('e.id')
+    // .getMany()
 
     // const tickets = await Ticket.createQueryBuilder('t')
     //   .select(['t', 'e.id', 'u.id', 'u.firstName', 'u.lastName', 'ut.id'])

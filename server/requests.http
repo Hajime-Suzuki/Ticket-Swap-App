@@ -1,4 +1,6 @@
 http://localhost:4000/events?pageNum=1
+###
+http://localhost:4000/events/filter?name=soap&date=
 
 ###
 http://localhost:4000/auth

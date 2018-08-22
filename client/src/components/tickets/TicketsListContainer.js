@@ -4,18 +4,37 @@ import { fetchEventsAndRelations } from '../../store/actions/events'
 import TicketsList from './TicketsList'
 
 class TicketsContainer extends Component {
+  state = {
+    sortType: null,
+    priceAsc: null,
+    authorAsc: null
+  }
+
   componentDidMount() {
     if (!this.props.currentTickets) this.props.fetchEventsAndRelations()
   }
 
-  render() {
-    if (!this.props.currentTickets) return null
-    console.log(this.props.match.params.eventId)
+  changeSortOption = (type, desOrAsc) => {
+    this.setState({
+      priceAsc: null,
+      authorAsc: null,
+      sortType: type,
+      [type]: desOrAsc
+    })
+  }
 
+  render() {
+    console.log(this.state)
+
+    if (!this.props.currentTickets) return null
     return (
       <TicketsList
         tickets={this.props.currentTickets}
         eventId={this.props.match.params.eventId}
+        sortType={this.state.sortType}
+        priceAsc={this.state.priceAsc}
+        authorAsc={this.state.authorAsc}
+        changeSortOption={this.changeSortOption}
       />
     )
   }

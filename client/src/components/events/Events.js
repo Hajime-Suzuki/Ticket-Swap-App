@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'react-router-dom/Link'
 import { formatDate } from '../../lib/formatDateString'
+import TicketFilterInput from '../tickets/TicketsFilterInput'
 
 const Events = ({ events, changePage, pageNum, pageTotal }) => {
   const list = events.map(event => {
@@ -20,6 +21,7 @@ const Events = ({ events, changePage, pageNum, pageTotal }) => {
 
   return (
     <div>
+      <TicketFilterInput />
       {list}
       {pageNum > 1 ? (
         <button onClick={() => changePage('prev')}>Prev</button>
