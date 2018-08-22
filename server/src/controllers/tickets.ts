@@ -1,6 +1,20 @@
-import { Get, JsonController, Param } from 'routing-controllers'
+import {
+  Get,
+  JsonController,
+  Param,
+  Post,
+  Body,
+  HttpCode
+} from 'routing-controllers'
 import Event from '../entities/Event'
 import Ticket from '../entities/Ticket'
+import User from '../entities/User'
+
+interface TicketInfo {
+  price: number
+  description?: string
+  image?: string
+}
 
 @JsonController('/tickets')
 export default class TicketController {
@@ -27,5 +41,37 @@ export default class TicketController {
       .innerJoin('c.user', 'u')
       .where('t.event = :eventId', { eventId: id })
       .getOne()
+  }
+  @Post('/:eventId')
+  @HttpCode(201)
+  async addTicket(
+    @Param('eventId') eventId: number,
+    @Body() ticketInfo: TicketInfo
+  ) {
+    // const user = await User.findOne({ id: 32 }, { relations: ['tickets'] })
+    // const newTicket = await Ticket.create({
+    //   ...ticketInfo,
+    //   event: eventId
+    // }).save()
+    // user.tickets.push(newTicket)
+    // await user.save()
+
+    // const { event, ...ticket } = await Ticket.findOne(
+    //   { id: newTicket.id },
+    //   { relations: ['user', 'event', 'comments', 'user.tickets'] }
+    // )
+
+    const ticket = await Ticket.createQueryBuilder('t')
+      .select(['t', 'u.id', 'u.firstName', 'ut.id'])
+      .leftJoin('t.user', 'u')
+      .leftJoin('u.tickets', 'ut')
+      .where('u.id=:id', { id: 32 })
+      .getOne()
+
+    // ticket.eventId = eventId
+
+    return {
+      ticket
+    }
   }
 }

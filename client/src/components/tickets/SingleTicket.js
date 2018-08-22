@@ -1,7 +1,7 @@
 import React from 'react'
 import { calculateFraudRisk } from '../../lib/calculateFraudRisk'
 
-const SingleTicket = ({ ticket, event, tickets, count }) => {
+const SingleTicket = ({ ticket, event, tickets, count, currentUserId }) => {
   const risk = calculateFraudRisk(ticket, tickets, count)
 
   return (
@@ -10,6 +10,7 @@ const SingleTicket = ({ ticket, event, tickets, count }) => {
       <h2>€{ticket.price}</h2>
       <p>for event: {event.name}</p>
       {risk ? <p>risk: {risk}</p> : null}
+      {ticket.user.id === currentUserId ? <button>Edit</button> : null}
     </div>
   )
 }

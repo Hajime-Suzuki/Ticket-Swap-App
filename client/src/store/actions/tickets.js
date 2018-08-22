@@ -1,9 +1,8 @@
-import { ticketsAxios as axios } from '../../axios/tickets'
+import { ticketsAxios as axios } from '../../axios/instances'
 
-export const fetchSingleTicket = eventId => async dispatch => {
+export const addTicket = (ticketData, eventId) => async dispatch => {
   try {
-    // const { data } = await axios.get(`/${eventId}`)
-    // dispatch({ type: FETCH_SINGLE_TICKET, payload: data })
+    console.log('add')
   } catch (e) {
     console.log(e)
   }

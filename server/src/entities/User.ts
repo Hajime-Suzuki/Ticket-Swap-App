@@ -41,7 +41,7 @@ export default class User extends BaseEntity {
   @Exclude({ toPlainOnly: true })
   password: string
 
-  @OneToMany(() => Ticket, ticket => ticket.user)
+  @OneToMany(() => Ticket, ticket => ticket.user, { cascade: true })
   tickets: Ticket[]
 
   @OneToMany(() => Comment, comment => comment.user)
@@ -55,6 +55,11 @@ export default class User extends BaseEntity {
     this.password = await bcrypt.hash(this.password, 10)
   }
 
+  @AfterLoad()
+  test() {
+    this.count = this.tickets ? this.tickets.length : null
+  }
+
   checkPassword(rawPassword: string): Promise<boolean> {
     return bcrypt.compare(rawPassword, this.password)
   }
@@ -62,4 +67,6 @@ export default class User extends BaseEntity {
   generateToken(): string {
     return sign({ id: this.id })
   }
+
+  count: number
 }

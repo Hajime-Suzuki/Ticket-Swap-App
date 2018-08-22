@@ -10,6 +10,7 @@ import LoginController from './controllers/logins'
 import PopulateController from './controllers/populate'
 import EventController from './controllers/events'
 import TicketController from './controllers/tickets'
+import AuthController from './controllers/auth'
 
 export const app = createKoaServer({
   cors: true,
@@ -18,32 +19,26 @@ export const app = createKoaServer({
     LoginController,
     EventController,
     TicketController,
+    AuthController,
     PopulateController
   ],
   authorizationChecker: (action: Action) => {
-    const header: string = action.request.headers.authorization
-    if (header && header.startsWith('Bearer ')) {
-      const [, token] = header.split(' ')
-
-      try {
-        return !!(token && verify(token))
-      } catch (e) {
-        throw new BadRequestError(e)
-      }
+    const token: string = action.request.headers.authorization
+    try {
+      return !!(token && verify(token))
+    } catch (e) {
+      throw new BadRequestError(e)
     }
-
     return false
   },
   currentUserChecker: async (action: Action) => {
-    const header: string = action.request.headers.authorization
-    if (header && header.startsWith('Bearer ')) {
-      const [, token] = header.split(' ')
+    const token: string = action.request.headers.authorization
 
-      if (token) {
-        const { id } = verify(token)
-        return User.findOne({ id })
-      }
+    if (token) {
+      const { id } = verify(token)
+      return User.findOne({ id })
     }
+
     return undefined
   }
 })

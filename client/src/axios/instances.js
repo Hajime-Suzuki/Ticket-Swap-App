@@ -10,3 +10,7 @@ export const ticketsAxios = axios.create({
 export const userAxios = axios.create({
   baseURL: 'http://localhost:4000/users'
 })
+
+export const authAxios = axios.create({
+  baseURL: 'http://localhost:4000/auth'
+})

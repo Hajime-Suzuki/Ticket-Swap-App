@@ -8,12 +8,7 @@ import {
   SIGN_UP_FAIL,
   SIGN_UP_SUCCES
 } from '../constants/actionTypes'
-
-const decodeToken = token => {
-  const base64Url = token.split('.')[1]
-  const base64 = base64Url.replace('-', '+').replace('_', '/')
-  return JSON.parse(window.atob(base64))
-}
+import { decodeToken } from '../../lib/decodeToken'
 
 export const signup = ({
   email,

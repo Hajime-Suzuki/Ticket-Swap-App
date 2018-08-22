@@ -2,21 +2,31 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { fetchEventsAndRelations } from '../../store/actions/events'
+import { addTicket } from '../../store/actions/tickets'
+import { checkJWT } from '../../lib/checkJWT'
+import { logout } from '../../store/actions/users'
 
 class SellTicketForm extends PureComponent {
   state = {}
 
-  componentDidMount() {
-    // this.props.clearErrorMessages()
+  async componentDidMount() {
+    if (!this.props.currentUser) {
+      this.props.history.replace('/login')
+    }
+
+    const isAuth = await checkJWT(this.props.currentUser.token)
+    if (!isAuth) {
+      this.props.logout()
+      this.props.history.replace('/login')
+    }
+
     if (!this.props.currentEvent) {
       this.props.fetchEventsAndRelations()
     }
   }
   handleSubmit = e => {
     e.preventDefault()
-    console.log(this.state)
-
-    // this.props.login(this.state)
+    this.props.addTicket(this.state, this.props.match.params.eventId)
   }
 
   handleChange = event => {
@@ -79,10 +89,11 @@ const mapSateToProps = (state, props) => ({
     state.events &&
     state.events
       .map(data => data.event)
-      .find(event => event.id === Number(props.match.params.eventId))
+      .find(event => event.id === Number(props.match.params.eventId)),
+  currentUser: state.currentUser
 })
 
 export default connect(
   mapSateToProps,
-  { fetchEventsAndRelations }
+  { fetchEventsAndRelations, addTicket, logout }
 )(SellTicketForm)

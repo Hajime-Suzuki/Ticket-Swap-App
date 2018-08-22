@@ -1,10 +1,25 @@
 http://localhost:4000/events?pageNum=0
 
 ###
+http://localhost:4000/auth
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImlhdCI6MTUzNDg5NDM1NCwiZXhwIjoxNTM1NDk5MTU0fQ.cnLOER6AI8DJ3ego5mTQ5bz3VcW9xakx6lDNEobK8XA
+
+###
 http://localhost:4000/events/test
 
 ###
 http://localhost:4000/tickets/1
+
+###
+POST http://localhost:4000/tickets/1
+Content-Type: application/json
+
+{
+  "price": 120,
+  "description": "aihsoetnah",
+  "image": "imageurl"
+}
 
 ###
 http://localhost:4000/users
@@ -23,7 +38,7 @@ POST http://localhost:4000/users/logins
 Content-Type: application/json
 
 {
-  "email":"asht@ahst.asht",
+  "email":"asht@ahst.ashta",
   "password": "ashtasht"
 }
 
