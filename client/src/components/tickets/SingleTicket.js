@@ -1,8 +1,8 @@
 import React from 'react'
 import { calculateFraudRisk } from '../../lib/calculateFraudRisk'
 
-const SingleTicket = ({ ticket, event, tickets, count, currentUserId }) => {
-  const risk = calculateFraudRisk(ticket, tickets, count)
+const SingleTicket = ({ ticket, event, tickets, currentUserId }) => {
+  const risk = calculateFraudRisk(ticket, tickets, ticket.user.tickets)
 
   return (
     <div>

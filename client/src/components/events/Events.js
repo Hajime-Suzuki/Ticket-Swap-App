@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'react-router-dom/Link'
 
-const Events = props => {
-  return props.events.map(event => {
+const Events = ({ events, changePage, pageNum, pageTotal }) => {
+  const list = events.map(event => {
     return (
       <Link to={`/events/${event.id}/tickets`} key={event.id}>
         <div>
@@ -13,6 +13,18 @@ const Events = props => {
       </Link>
     )
   })
+
+  return (
+    <div>
+      {list}
+      {pageNum > 1 ? (
+        <button onClick={() => changePage('prev')}>Prev</button>
+      ) : null}
+      {pageNum < pageTotal ? (
+        <button onClick={() => changePage('next')}>Next</button>
+      ) : null}
+    </div>
+  )
 }
 
 export default Events

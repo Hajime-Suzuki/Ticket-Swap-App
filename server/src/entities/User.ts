@@ -56,8 +56,8 @@ export default class User extends BaseEntity {
   }
 
   @AfterLoad()
-  test() {
-    this.count = this.tickets ? this.tickets.length : null
+  assignCount() {
+    this.tickets = this.tickets ? this.tickets.length : null
   }
 
   checkPassword(rawPassword: string): Promise<boolean> {

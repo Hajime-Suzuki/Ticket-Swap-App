@@ -14,9 +14,10 @@ http://localhost:4000/tickets/1
 ###
 POST http://localhost:4000/tickets/1
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImlhdCI6MTUzNDg5NDM1NCwiZXhwIjoxNTM1NDk5MTU0fQ.cnLOER6AI8DJ3ego5mTQ5bz3VcW9xakx6lDNEobK8XA
 
 {
-  "price": 120,
+  "price": 0,
   "description": "aihsoetnah",
   "image": "imageurl"
 }

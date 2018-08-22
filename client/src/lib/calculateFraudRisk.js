@@ -13,32 +13,32 @@ export const calculateFraudRisk = (ticket, tickets, count) => {
     tickets.length
 
   const diffPercent = Math.abs(((ticket.price - avarage) / avarage) * 100)
-  console.log(ticket.price, avarage, diffPercent)
+  // console.log(ticket.price, avarage, diffPercent)
 
   if (count === 1) {
-    console.log('only one ticket from the person')
+    // console.log('only one ticket from the person')
     risk += 4
   }
 
   if (ticket.price > avarage) {
-    console.log('expesive')
+    // console.log('expesive')
     risk -= diffPercent > 15 ? 15 : diffPercent
   } else if (ticket.price < avarage) {
-    console.log('cheape')
+    // console.log('cheape')
     risk += diffPercent
   }
 
   if (createdHour >= 9 && createdHour <= 17) {
-    console.log('businnes hour')
+    // console.log('businnes hour')
     risk -= 13
   } else {
-    console.log('not businnes hour')
+    // console.log('not businnes hour')
 
     risk += 13
   }
 
   if (ticket.comments.length > 3) {
-    console.log('more comments')
+    // console.log('more comments')
     risk += 6
   }
 

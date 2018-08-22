@@ -24,6 +24,7 @@ class SellTicketForm extends PureComponent {
       this.props.fetchEventsAndRelations()
     }
   }
+
   handleSubmit = e => {
     e.preventDefault()
     this.props.addTicket(this.state, this.props.match.params.eventId)

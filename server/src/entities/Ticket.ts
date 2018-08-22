@@ -4,7 +4,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  ManyToOne
+  ManyToOne,
+  AfterLoad
 } from 'typeorm'
 import User from './User'
 import Event from './Event'
@@ -21,7 +22,7 @@ export default class Ticket extends BaseEntity {
   @Column('text')
   description: string
 
-  @Column('text')
+  @Column('text', { nullable: true })
   image: string
 
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
@@ -31,10 +32,8 @@ export default class Ticket extends BaseEntity {
   user: User
 
   @ManyToOne(() => Event, event => event.tickets)
-  event: Event | number
+  event: Event
 
   @OneToMany(() => Comment, comment => comment.ticket)
   comments: Comment[]
-
-  eventId: number
 }

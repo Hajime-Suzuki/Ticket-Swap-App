@@ -29,7 +29,6 @@ export const app = createKoaServer({
     } catch (e) {
       throw new BadRequestError(e)
     }
-    return false
   },
   currentUserChecker: async (action: Action) => {
     const token: string = action.request.headers.authorization

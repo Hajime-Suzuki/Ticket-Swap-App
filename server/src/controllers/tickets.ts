@@ -4,13 +4,16 @@ import {
   Param,
   Post,
   Body,
-  HttpCode
+  HttpCode,
+  Authorized,
+  CurrentUser,
+  NotFoundError
 } from 'routing-controllers'
 import Event from '../entities/Event'
 import Ticket from '../entities/Ticket'
 import User from '../entities/User'
 
-interface TicketInfo {
+interface TicketData {
   price: number
   description?: string
   image?: string
@@ -18,58 +21,80 @@ interface TicketInfo {
 
 @JsonController('/tickets')
 export default class TicketController {
-  @Get('/:id')
-  getSingleTicket(@Param('id') id: number) {
-    return Ticket.createQueryBuilder('t')
-      .select([
-        't.id',
-        't.price',
-        't.description',
-        't.image',
-        'e.id',
-        'e.name',
-        'e.description',
-        'e.startDate',
-        'e.endDate',
-        'c.content',
-        'c.createdAt',
-        'u.firstName',
-        'u.lastName'
-      ])
-      .innerJoin('t.event', 'e')
-      .innerJoin('t.comments', 'c')
-      .innerJoin('c.user', 'u')
-      .where('t.event = :eventId', { eventId: id })
-      .getOne()
-  }
+  // @Get('/:id')
+  // getSingleTicket(@Param('id') id: number) {
+  //   return Ticket.createQueryBuilder('t')
+  //     .select([
+  //       't.id',
+  //       't.price',
+  //       't.description',
+  //       't.image',
+  //       'e.id',
+  //       'e.name',
+  //       'e.description',
+  //       'e.startDate',
+  //       'e.endDate',
+  //       'c.content',
+  //       'c.createdAt',
+  //       'u.firstName',
+  //       'u.lastName'
+  //     ])
+  //     .innerJoin('t.event', 'e')
+  //     .innerJoin('t.comments', 'c')
+  //     .innerJoin('c.user', 'u')
+  //     .where('t.event = :eventId', { eventId: id })
+  //     .getOne()
+  // }
+  @Authorized()
   @Post('/:eventId')
   @HttpCode(201)
   async addTicket(
     @Param('eventId') eventId: number,
-    @Body() ticketInfo: TicketInfo
+    @Body() ticketData: TicketData,
+    @CurrentUser() user: User
   ) {
-    // const user = await User.findOne({ id: 32 }, { relations: ['tickets'] })
+    if (!user) throw new NotFoundError('user not found')
+    // const user = await User.findOne({ id: user.id }, { relations: ['tickets'] })
+
     // const newTicket = await Ticket.create({
-    //   ...ticketInfo,
-    //   event: eventId
+    //   ...ticketData,
+    //   user: user
     // }).save()
+
+    const res = await Ticket.createQueryBuilder()
+      .insert()
+      .into(Ticket)
+      .values([
+        {
+          price: 0,
+          description: 'aishoetiooah',
+          user,
+          event: await Event.findOne({ id: eventId })
+        }
+      ])
+      .execute()
+
+    // console.log()
+
     // user.tickets.push(newTicket)
     // await user.save()
-
-    // const { event, ...ticket } = await Ticket.findOne(
-    //   { id: newTicket.id },
-    //   { relations: ['user', 'event', 'comments', 'user.tickets'] }
-    // )
+    // console.log()
 
     const ticket = await Ticket.createQueryBuilder('t')
-      .select(['t', 'u.id', 'u.firstName', 'ut.id'])
+      .select(['t', 'u.id', 'u.firstName', 'u.lastName', 'ut.id', 'e.id'])
+      .leftJoinAndSelect('t.comments', 'c')
       .leftJoin('t.user', 'u')
       .leftJoin('u.tickets', 'ut')
-      .where('u.id=:id', { id: 32 })
+      .leftJoin('t.event', 'e')
+      .where('t.id=:id', { id: res.identifiers[0].id })
       .getOne()
 
-    // ticket.eventId = eventId
-
+    // const ticket = await Ticket.createQueryBuilder('t')
+    //   .select(['t', 'u.id', 'u.firstName', 'ut.id'])
+    //   .leftJoin('t.user', 'u')
+    //   .leftJoin('u.tickets', 'ut')
+    //   .where('u.id=:id', { id: 32 })
+    //   .getOne()
     return {
       ticket
     }

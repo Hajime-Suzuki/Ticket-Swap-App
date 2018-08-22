@@ -7,17 +7,17 @@ import { userAxios as axios } from '../../axios/instances'
 import { fetchEventsAndRelations } from '../../store/actions/events'
 
 class SingleTicketContainer extends Component {
-  state = {
-    count: null
-  }
+  // state = {
+  //   count: null
+  // }
   componentDidMount() {
     if (!this.props.currentTicket) {
       this.props.fetchEventsAndRelations()
     }
 
-    axios
-      .get(`/count-tickets/${this.props.match.params.ticketId}`)
-      .then(({ data }) => this.setState({ count: data }))
+    // axios
+    //   .get(`/count-tickets/${this.props.match.params.ticketId}`)
+    //   .then(({ data }) => this.setState({ count: data }))
   }
 
   render() {
@@ -27,7 +27,6 @@ class SingleTicketContainer extends Component {
         ticket={this.props.currentTicket}
         event={this.props.currentEvent}
         tickets={this.props.currentTickets}
-        count={this.state.count}
         currentUserId={this.props.currentUserId}
       />
     )

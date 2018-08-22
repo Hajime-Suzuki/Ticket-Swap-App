@@ -1,6 +1,6 @@
 import { NEXT_PAGE, PREVIOUS_PAGE } from '../constants/actionTypes'
 
-const reducer = (state = 0, { type, payload } = {}) => {
+const reducer = (state = 1, { type, payload } = {}) => {
   switch (type) {
     case NEXT_PAGE:
       return state + 1
