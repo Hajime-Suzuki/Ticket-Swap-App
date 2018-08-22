@@ -5,6 +5,7 @@ const ttl = 3600 * 24 * 7 // our JWT tokens are valid for 4 hours
 
 interface JwtPayload {
   id: number
+  admin: boolean
 }
 
 export const sign = (data: JwtPayload) =>

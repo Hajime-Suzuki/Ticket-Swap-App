@@ -1,17 +1,20 @@
 import { ticketsAxios as axios } from '../../axios/instances'
-
+import { ADD_TICKET } from '../constants/actionTypes'
+import { fetchEventsAndRelations } from './events'
+import histroy from '../../lib/history'
 export const addTicket = (ticketData, eventId) => async (
   dispatch,
   getState
 ) => {
   try {
-    const res = await axios.post(
+    await axios.post(
       `/${eventId}`,
       { ticketData },
       { headers: { Authorization: getState().currentUser.token } }
     )
-    console.log(res)
+    histroy.push('/')
+    dispatch(fetchEventsAndRelations())
   } catch (e) {
-    console.log(e)
+    console.log(e.response.data)
   }
 }

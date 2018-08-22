@@ -26,47 +26,47 @@ export default class UserController {
     return { jwt: user.generateToken() }
   }
 
-  @Get('/count-tickets/:ticketId')
-  async test(@Param('ticketId') ticketId: number) {
-    // const data = await User.findOne(
-    //   { id },
-    //   { select: ['id'], relations: ['tickets'], where:{
-    //     {tickets.id: id}
-    //   } }
-    // )
-    const { id } = await User.createQueryBuilder('u')
-      .select(['u.id'])
-      .innerJoin('u.tickets', 't')
-      .where('t.id =:id', { id: ticketId })
-      .getOne()
+  // @Get('/count-tickets/:ticketId')
+  // async test(@Param('ticketId') ticketId: number) {
+  //   // const data = await User.findOne(
+  //   //   { id },
+  //   //   { select: ['id'], relations: ['tickets'], where:{
+  //   //     {tickets.id: id}
+  //   //   } }
+  //   // )
+  //   const { id } = await User.createQueryBuilder('u')
+  //     .select(['u.id'])
+  //     .innerJoin('u.tickets', 't')
+  //     .where('t.id =:id', { id: ticketId })
+  //     .getOne()
 
-    const { tickets } = await User.createQueryBuilder('u')
-      .select(['u.id', 't.id'])
-      .innerJoin('u.tickets', 't')
-      .where('u.id =:id', { id })
-      .getOne()
+  //   const { tickets } = await User.createQueryBuilder('u')
+  //     .select(['u.id', 't.id'])
+  //     .innerJoin('u.tickets', 't')
+  //     .where('u.id =:id', { id })
+  //     .getOne()
 
-    // console.log()
+  //   // console.log()
 
-    // const data = await User.createQueryBuilder('u')
-    //   .leftJoinAndSelect('u.tickets', 't')
-    //   .where(qb => {
-    //     const subQuery = qb.subQuery()
-    //       .select(['u.id'])
-    //       .from(Tickets, "t")
-    //       .where("user.registered = :registered")
-    //       .getQuery();
-    //     return 'u.id = ' subQuery;
-    //   })
-    //   .getOne()
+  //   // const data = await User.createQueryBuilder('u')
+  //   //   .leftJoinAndSelect('u.tickets', 't')
+  //   //   .where(qb => {
+  //   //     const subQuery = qb.subQuery()
+  //   //       .select(['u.id'])
+  //   //       .from(Tickets, "t")
+  //   //       .where("user.registered = :registered")
+  //   //       .getQuery();
+  //   //     return 'u.id = ' subQuery;
+  //   //   })
+  //   //   .getOne()
 
-    // const data = await Ticket.createQueryBuilder('t')
-    //   .leftJoinAndSelect('t.user', 'u')
-    //   .where('t.id = :id', { id: 1 })
-    //   .getOne()
+  //   // const data = await Ticket.createQueryBuilder('t')
+  //   //   .leftJoinAndSelect('t.user', 'u')
+  //   //   .where('t.id = :id', { id: 1 })
+  //   //   .getOne()
 
-    return tickets.length
-  }
+  //   return tickets.length
+  // }
 
   // @Authorized()
   // @Get('/users/:id([0-9]+)')

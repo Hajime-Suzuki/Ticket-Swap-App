@@ -1,100 +1,62 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import { fetchEventsAndRelations } from '../../store/actions/events'
 import { addTicket } from '../../store/actions/tickets'
-import { checkJWT } from '../../lib/checkJWT'
 import { logout } from '../../store/actions/users'
 
-class SellTicketForm extends PureComponent {
-  state = {}
+const SellTicketForm = props => {
+  const { event } = props
+  if (!event) return null
 
-  async componentDidMount() {
-    if (!this.props.currentUser) {
-      this.props.history.replace('/login')
-    }
+  return (
+    <div>
+      {/* {props.message ? <p style={{ color: 'red' }}>{props.message}</p> : null} */}
 
-    const isAuth = await checkJWT(this.props.currentUser.token)
-    if (!isAuth) {
-      this.props.logout()
-      this.props.history.replace('/login')
-    }
+      <form onSubmit={props.handleSubmit}>
+        <label>
+          Price
+          <input
+            type="number"
+            name="price"
+            value={props.price || ''}
+            onChange={props.handleChange}
+          />
+        </label>
 
-    if (!this.props.currentEvent) {
-      this.props.fetchEventsAndRelations()
-    }
-  }
+        <label>
+          Description
+          <textarea
+            type="text"
+            name="description"
+            value={props.description || ''}
+            onChange={props.handleChange}
+          />
+        </label>
+        <label>
+          Image
+          <input
+            type="text"
+            name="image"
+            value={props.image || ''}
+            onChange={props.handleChange}
+          />
+        </label>
 
-  handleSubmit = e => {
-    e.preventDefault()
-    this.props.addTicket(this.state, this.props.match.params.eventId)
-  }
-
-  handleChange = event => {
-    const { name, value } = event.target
-    this.setState({
-      [name]: value
-    })
-  }
-
-  render() {
-    if (!this.props.currentEvent) return null
-    const event = this.props.currentEvent
-    return (
-      <div>
-        {this.props.message ? (
-          <p style={{ color: 'red' }}>{this.props.message}</p>
-        ) : null}
-        <h1>Sell ticket of : {event.name}</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Price
-            <input
-              type="number"
-              name="price"
-              value={this.state.price || ''}
-              onChange={this.handleChange}
-            />
-          </label>
-
-          <label>
-            Description
-            <textarea
-              type="text"
-              name="description"
-              value={this.state.description || ''}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Image
-            <input
-              type="text"
-              name="image"
-              value={this.state.image || ''}
-              onChange={this.handleChange}
-            />
-          </label>
-
-          <button type="submit" disabled={!this.state.price}>
-            Submit
-          </button>
-        </form>
-      </div>
-    )
-  }
+        <button type="submit" disabled={!props.price}>
+          Submit
+        </button>
+      </form>
+    </div>
+  )
 }
 
-const mapSateToProps = (state, props) => ({
-  currentEvent:
-    state.events &&
-    state.events
-      .map(data => data.event)
-      .find(event => event.id === Number(props.match.params.eventId)),
-  currentUser: state.currentUser
-})
+// const mapSateToProps = (state, props) => ({
+//   currentEvent:
+//     state.events &&
+//     state.events
+//       .map(data => data.event)
+//       .find(event => event.id === Number(props.match.params.eventId)),
+//   currentUser: state.currentUser
+// })
 
-export default connect(
-  mapSateToProps,
-  { fetchEventsAndRelations, addTicket, logout }
-)(SellTicketForm)
+export default SellTicketForm

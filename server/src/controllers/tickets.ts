@@ -7,7 +7,8 @@ import {
   HttpCode,
   Authorized,
   CurrentUser,
-  NotFoundError
+  NotFoundError,
+  BodyParam
 } from 'routing-controllers'
 import Event from '../entities/Event'
 import Ticket from '../entities/Ticket'
@@ -50,7 +51,7 @@ export default class TicketController {
   @HttpCode(201)
   async addTicket(
     @Param('eventId') eventId: number,
-    @Body() ticketData: TicketData,
+    @BodyParam('ticketData') ticketData: TicketData,
     @CurrentUser() user: User
   ) {
     if (!user) throw new NotFoundError('user not found')
@@ -66,28 +67,26 @@ export default class TicketController {
       .into(Ticket)
       .values([
         {
-          price: 0,
-          description: 'aishoetiooah',
+          ...ticketData,
           user,
           event: await Event.findOne({ id: eventId })
         }
       ])
       .execute()
-
     // console.log()
 
     // user.tickets.push(newTicket)
     // await user.save()
     // console.log()
 
-    const ticket = await Ticket.createQueryBuilder('t')
-      .select(['t', 'u.id', 'u.firstName', 'u.lastName', 'ut.id', 'e.id'])
-      .leftJoinAndSelect('t.comments', 'c')
-      .leftJoin('t.user', 'u')
-      .leftJoin('u.tickets', 'ut')
-      .leftJoin('t.event', 'e')
-      .where('t.id=:id', { id: res.identifiers[0].id })
-      .getOne()
+    // const ticket = await Ticket.createQueryBuilder('t')
+    //   .select(['t', 'u.id', 'u.firstName', 'u.lastName', 'ut.id', 'e.id'])
+    //   .leftJoinAndSelect('t.comments', 'c')
+    //   .leftJoin('t.user', 'u')
+    //   .leftJoin('u.tickets', 'ut')
+    //   .leftJoin('t.event', 'e')
+    //   .where('t.id=:id', { id: res.identifiers[0].id })
+    //   .getOne()
 
     // const ticket = await Ticket.createQueryBuilder('t')
     //   .select(['t', 'u.id', 'u.firstName', 'ut.id'])
@@ -95,8 +94,6 @@ export default class TicketController {
     //   .leftJoin('u.tickets', 'ut')
     //   .where('u.id=:id', { id: 32 })
     //   .getOne()
-    return {
-      ticket
-    }
+    return true
   }
 }

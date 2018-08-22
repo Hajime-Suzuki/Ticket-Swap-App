@@ -9,6 +9,7 @@ import {
   SIGN_UP_SUCCES
 } from '../constants/actionTypes'
 import { decodeToken } from '../../lib/decodeToken'
+import history from '../../lib/history'
 
 export const signup = ({
   email,
@@ -27,12 +28,13 @@ export const signup = ({
       .then(({ data }) => data.jwt)
 
     localStorage.setItem('token', token)
-
+    const decded = decodeToken(token)
     dispatch({
       type: SIGN_UP_USER,
-      payload: { token, id: decodeToken(token).id }
+      payload: { token, id: decded.id, admin: decded.admin }
     })
     dispatch({ type: SIGN_UP_SUCCES })
+    // history.replace('/events')
   } catch (e) {
     dispatch({
       type: SIGN_UP_FAIL,
@@ -52,10 +54,13 @@ export const login = ({ email, password }) => async dispatch => {
 
     localStorage.setItem('token', token)
 
+    const decded = decodeToken(token)
+
     dispatch({
       type: LOG_IN_USER,
-      payload: { token, id: decodeToken(token).id }
+      payload: { token, id: decded.id, admin: decded.admin }
     })
+    // history.replace('/events')
     dispatch({ type: LOGIN_SUCCESS })
   } catch (e) {
     dispatch({
@@ -67,6 +72,7 @@ export const login = ({ email, password }) => async dispatch => {
 
 export const logout = () => async dispatch => {
   localStorage.removeItem('token')
+  history.replace('/')
   dispatch({
     type: LOG_OUT_USER
   })

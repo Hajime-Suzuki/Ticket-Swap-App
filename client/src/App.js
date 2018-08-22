@@ -1,6 +1,6 @@
 import './App.css'
 
-import { Route } from 'react-router-dom'
+import { Route, Router } from 'react-router-dom'
 import React, { Component } from 'react'
 import Home from './components/Home'
 import EventsContainer from './components/events/EventsContainer'
@@ -9,7 +9,7 @@ import SingleTicketContainer from './components/tickets/SingleTicketContainer'
 import NavigationBar from './components/UI/NavigationBar'
 import SignupForm from './components/users/SignupForm'
 import LoginForm from './components/users/LoginForm'
-import SellTicketForm from './components/tickets/SellTicketForm'
+import SellTicketFormContainer from './components/tickets/SellTicketFormContainer'
 
 class App extends Component {
   render() {
@@ -22,7 +22,7 @@ class App extends Component {
           path="/events/:eventId/tickets"
           component={TicketsListContainer}
         />
-        <Route path="/sell/:eventId" component={SellTicketForm} />
+        <Route path="/sell/:eventId" component={SellTicketFormContainer} />
         <Route path="/tickets/:ticketId" component={SingleTicketContainer} />
         <Route path="/signup" exact component={SignupForm} />
         <Route path="/login" exact component={LoginForm} />

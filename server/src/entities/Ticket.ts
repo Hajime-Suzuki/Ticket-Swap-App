@@ -14,7 +14,7 @@ import Comment from './Comment'
 @Entity()
 export default class Ticket extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id?: number
+  id: number
 
   @Column('numeric', { precision: 5, scale: 2 })
   price: number

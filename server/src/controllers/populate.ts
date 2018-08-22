@@ -35,8 +35,8 @@ export default class PopulateController {
           name: faker.commerce.productName(),
           description: faker.lorem.sentence(),
           image: 'https://fakeimg.pl/1500x1200/?text=Event',
-          startDate: faker.date.between('2018-08-20', '2018-08-31'),
-          endDate: faker.date.between('2018-09-01', '2018-9-30')
+          startDate: faker.date.between('2018-08-20', '2018-08-10'),
+          endDate: faker.date.between('2018-08-10', '2018-9-20')
         })
       })
 
@@ -59,7 +59,7 @@ export default class PopulateController {
           price: Number(faker.commerce.price(30, 300)),
           description: faker.lorem.sentence(),
           image: 'https://fakeimg.pl/1500x1200/?text=Ticket',
-          createdAt: faker.date.between('2018-08-1', new Date()),
+          createdAt: faker.date.between('2018-08-01', new Date()),
           event
         })
       })
@@ -86,14 +86,14 @@ export default class PopulateController {
         })
         const randomIndexForUsers = faker.random.number({
           min: 1,
-          max: userAmount
+          max: userAmount - 1
         })
 
         return Comment.create({
           content: faker.lorem.sentence(),
           ticket: tickets[randomIndexForTickets],
           // user: users[randomIndexForUsers],
-          user: { id: randomIndexForUsers },
+          user: users[randomIndexForUsers],
           createdAt: faker.date.between('2018-08-01', new Date())
         })
       })
@@ -114,6 +114,21 @@ export default class PopulateController {
     //   { relations: ['comments'], select: ['firstName', 'email', 'id'] }
     // )
     // return Comment.findOne({ id: 1 })
+    await Promise.all([
+      User.create({
+        firstName: 'Hajime',
+        lastName: 'Suzuki',
+        email: 'asht@asht.asht',
+        password: 'ashtasht',
+        admin: true
+      }).save(),
+      User.create({
+        firstName: 'Guest',
+        lastName: 'User',
+        email: 'aaa@aaa.aaa',
+        password: 'ashtasht'
+      }).save()
+    ])
 
     return 'done'
   }

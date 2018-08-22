@@ -57,6 +57,7 @@ export default class User extends BaseEntity {
 
   @AfterLoad()
   assignCount() {
+    if (!this.tickets || !this.tickets.length) return null
     this.tickets = this.tickets ? this.tickets.length : null
   }
 
@@ -65,8 +66,6 @@ export default class User extends BaseEntity {
   }
 
   generateToken(): string {
-    return sign({ id: this.id })
+    return sign({ id: this.id, admin: this.admin })
   }
-
-  count: number
 }

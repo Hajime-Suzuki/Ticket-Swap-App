@@ -36,7 +36,7 @@ export default class EventController {
     //   .orderBy('e.id')
     //   .getMany()
 
-    const events = await Event.createQueryBuilder('e')
+    let events = await Event.createQueryBuilder('e')
       .leftJoinAndSelect('e.tickets', 't')
       .leftJoinAndSelect('t.user', 'u')
       .leftJoin('t.comments', 'c')
@@ -52,12 +52,23 @@ export default class EventController {
         'cu.firstName',
         'cu.lastName'
       ])
+
+      .where('e.endDate > :date', { date: new Date() })
+      .orderBy({
+        'e.endDate': 'ASC'
+      })
       .take(4)
       .skip(4 * pageNum - 4)
-      .orderBy('e.id')
+      .printSql()
       .getMany()
-    console.log(pageNum, events[0].id)
-    const count = await Event.count()
+
+    console.log(events.length)
+
+    const { count } = await Event.createQueryBuilder('e')
+      .select('COUNT (e.id)', 'count')
+      .where('e.endDate > :date', { date: new Date() })
+      .getRawOne()
+
     return { events, count: Math.ceil(count / 4) }
   }
 

@@ -1,4 +1,4 @@
-http://localhost:4000/events?pageNum=0
+http://localhost:4000/events?pageNum=1
 
 ###
 http://localhost:4000/auth
@@ -39,7 +39,7 @@ POST http://localhost:4000/users/logins
 Content-Type: application/json
 
 {
-  "email":"asht@ahst.ashta",
+  "email":"asht@asht.asht",
   "password": "ashtasht"
 }
 
