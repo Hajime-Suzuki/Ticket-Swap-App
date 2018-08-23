@@ -1,11 +1,10 @@
+import { IsString } from 'class-validator'
 import {
   BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   ManyToOne,
-  BeforeInsert,
-  RelationId
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import Ticket from './Ticket'
 import User from './User'
@@ -15,18 +14,16 @@ export default class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
+  @IsString()
   @Column('text')
   content: string
 
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date
 
-  @ManyToOne(() => Ticket, ticket => ticket.comments)
+  @ManyToOne(() => Ticket, ticket => ticket.comments, { onDelete: 'CASCADE' })
   ticket: Ticket
 
-  @ManyToOne(() => User, user => user.comments)
+  @ManyToOne(() => User, user => user.comments, { onDelete: 'CASCADE' })
   user: User
-
-  // @RelationId((comment: Comment) => comment.user)
-  // userId: number
 }

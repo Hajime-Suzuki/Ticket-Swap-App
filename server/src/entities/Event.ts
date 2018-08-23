@@ -1,9 +1,10 @@
+import { IsString } from 'class-validator'
 import {
   BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToMany
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 import Ticket from './Ticket'
 
@@ -12,12 +13,15 @@ export default class Event extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
+  @IsString()
   @Column('varchar', { length: 255 })
   name: string
 
+  @IsString()
   @Column('varchar')
   description: string
 
+  @IsString()
   @Column('text')
   image: string
 

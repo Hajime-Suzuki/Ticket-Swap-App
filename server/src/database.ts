@@ -2,10 +2,6 @@ import { createConnection, getConnectionOptions } from 'typeorm'
 import { DefaultNamingStrategy } from 'typeorm/naming-strategy/DefaultNamingStrategy'
 import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyInterface'
 import { snakeCase } from 'typeorm/util/StringUtils'
-import User from './entities/User'
-import Event from './entities/Event'
-import Ticket from './entities/Ticket'
-import Comment from './entities/Comment'
 
 class CustomNamingStrategy extends DefaultNamingStrategy
   implements NamingStrategyInterface {
@@ -44,15 +40,4 @@ export const connectDatabase = async () => {
   return createConnection(settings).then(async () => {
     console.log('Connected to Postgres with TypeORM')
   })
-}
-
-const defaultConfig = {
-  type: 'postgres',
-  url:
-    process.env.DATABASE_URL ||
-    'postgres://postgres:secret@localhost:5432/game',
-  entities: [User, Event, Ticket, Comment],
-  synchronize: true,
-  logging: true,
-  logger: 'file'
 }

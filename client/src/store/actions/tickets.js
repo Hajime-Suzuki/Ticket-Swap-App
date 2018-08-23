@@ -35,3 +35,16 @@ export const updateTicket = (ticketData, ticketId) => async (
     console.log(e.response.data.message)
   }
 }
+
+export const deleteTicket = ticketId => async (dispatch, getState) => {
+  try {
+    await axios.delete(`${ticketId}`, {
+      headers: { Authorization: getState().currentUser.token }
+    })
+
+    histroy.replace('/events')
+    dispatch(fetchEventsAndRelations())
+  } catch (e) {
+    console.log(e.response.data.message)
+  }
+}

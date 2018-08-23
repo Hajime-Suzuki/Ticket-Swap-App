@@ -1,15 +1,14 @@
 import {
-  Get,
-  JsonController,
-  Param,
-  Post,
-  Body,
-  HttpCode,
   Authorized,
-  CurrentUser,
-  NotFoundError,
   BodyParam,
+  CurrentUser,
+  Delete,
+  HttpCode,
+  JsonController,
+  NotFoundError,
+  Param,
   Patch,
+  Post,
   UnauthorizedError
 } from 'routing-controllers'
 import Event from '../entities/Event'
@@ -52,7 +51,7 @@ export default class TicketController {
 
   @Authorized()
   @Patch('/:ticketId')
-  async updateTicke(
+  async updateTicket(
     @Param('ticketId') ticketId: number,
     @BodyParam('ticketData') ticketData: TicketData,
     @CurrentUser() user: User
@@ -66,6 +65,24 @@ export default class TicketController {
     if (!ticket) throw new NotFoundError()
     if (ticket.user.id !== user.id && !user.admin) throw new UnauthorizedError()
     await Ticket.update(ticketId, { ...ticketData })
+    return true
+  }
+
+  @Authorized()
+  @Delete('/:ticketId')
+  async deleteTicket(
+    @Param('ticketId') ticketId: number,
+    @CurrentUser() user: User
+  ) {
+    if (!user) throw new UnauthorizedError()
+
+    const ticket = await Ticket.findOne(
+      { id: ticketId },
+      { relations: ['user'] }
+    )
+    if (!ticket) throw new NotFoundError()
+    if (ticket.user.id !== user.id && !user.admin) throw new UnauthorizedError()
+    await ticket.remove()
     return true
   }
 }

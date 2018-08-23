@@ -3,7 +3,7 @@ import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
 import { formatDate } from '../../lib/formatDateString'
 import SellTicketForm from './SellTicketForm'
 import { connect } from 'react-redux'
-import { updateTicket } from '../../store/actions/tickets'
+import { updateTicket, deleteTicket } from '../../store/actions/tickets'
 import { Typography, Paper, Grid, Button } from '@material-ui/core'
 import EventInfoHeader from '../events/components/EventInfoHeader'
 import styled from 'styled-components'
@@ -42,6 +42,11 @@ class SingleTicket extends PureComponent {
       }
     })
   }
+
+  deleteTicket = () => {
+    this.props.deleteTicket(this.props.ticket.id)
+  }
+
   toggleEditForm = () => {
     this.setState(({ showEdit }) => ({
       showEdit: !showEdit
@@ -88,6 +93,7 @@ class SingleTicket extends PureComponent {
           <DeleteButton
             style={{ marginTop: spacing.normal }}
             variant="contained"
+            onClick={this.deleteTicket}
           >
             Delete this ticket
           </DeleteButton>
@@ -122,5 +128,5 @@ class SingleTicket extends PureComponent {
 
 export default connect(
   null,
-  { updateTicket }
+  { updateTicket, deleteTicket }
 )(SingleTicket)

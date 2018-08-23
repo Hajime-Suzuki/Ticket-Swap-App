@@ -24,8 +24,6 @@ class TicketsContainer extends Component {
   }
 
   render() {
-    console.log(this.props)
-
     if (!this.props.currentTickets) return null
     return (
       <TicketsList

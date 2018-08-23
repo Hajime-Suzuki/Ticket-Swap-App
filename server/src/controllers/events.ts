@@ -1,24 +1,20 @@
 import {
-  Get,
-  JsonController,
-  QueryParam,
-  BodyParam,
-  Put,
   Authorized,
-  Patch,
-  CurrentUser,
-  UnauthorizedError,
   Body,
-  Params,
-  Param,
-  HttpCode,
-  Post,
+  CurrentUser,
   Delete,
-  NotFoundError
+  Get,
+  HttpCode,
+  JsonController,
+  NotFoundError,
+  Param,
+  Patch,
+  Post,
+  QueryParam,
+  UnauthorizedError
 } from 'routing-controllers'
 import Event from '../entities/Event'
 import User from '../entities/User'
-import Ticket from '../entities/Ticket'
 
 @JsonController('/events')
 export default class EventController {
@@ -95,7 +91,8 @@ export default class EventController {
   @Post('/')
   @HttpCode(201)
   async createEvent(@CurrentUser() user: User, @Body() eventData: Event) {
-    if (!user.admin) throw new UnauthorizedError('Not Allowed')
+    if (!user) throw new UnauthorizedError()
+    if (!user.admin) throw new UnauthorizedError()
     const event = await Event.create(eventData).save()
     return event
   }
@@ -107,7 +104,8 @@ export default class EventController {
     @CurrentUser() user: User,
     @Body() eventData: Event
   ) {
-    if (!user.admin) throw new UnauthorizedError('Not Allowed')
+    if (!user) throw new UnauthorizedError()
+    if (!user.admin) throw new UnauthorizedError()
     const event = await Event.findOne({ id: eventId })
     if (!event) throw new NotFoundError()
     await Event.update(eventId, eventData)
@@ -120,12 +118,15 @@ export default class EventController {
     @CurrentUser() user: User,
     @Param('eventId') eventId: number
   ) {
-    if (!user.admin) throw new UnauthorizedError('Not Allowed')
+    if (!user) throw new UnauthorizedError()
+    if (!user.admin) throw new UnauthorizedError()
 
     const event = await Event.findOne({ id: eventId })
 
     if (!event) throw new NotFoundError()
-    await event.remove()
+
+    const res = await event.remove()
+    console.log(res)
 
     return true
   }

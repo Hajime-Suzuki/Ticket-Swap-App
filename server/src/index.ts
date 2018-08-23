@@ -1,16 +1,17 @@
 import * as dotenv from 'dotenv'
-dotenv.config()
 import 'reflect-metadata'
 import { Action, BadRequestError, createKoaServer } from 'routing-controllers'
-import { connectDatabase } from './database'
-import { verify } from './jwt/jwt'
-import UserController from './controllers/users'
-import User from './entities/User'
+import AuthController from './controllers/auth'
+import EventController from './controllers/events'
 import LoginController from './controllers/logins'
 import PopulateController from './controllers/populate'
-import EventController from './controllers/events'
 import TicketController from './controllers/tickets'
-import AuthController from './controllers/auth'
+import UserController from './controllers/users'
+import { connectDatabase } from './database'
+import User from './entities/User'
+import { verify } from './jwt/jwt'
+import CommentController from './controllers/comments'
+dotenv.config()
 
 export const app = createKoaServer({
   cors: true,
@@ -20,6 +21,7 @@ export const app = createKoaServer({
     EventController,
     TicketController,
     AuthController,
+    CommentController,
     PopulateController
   ],
   authorizationChecker: (action: Action) => {

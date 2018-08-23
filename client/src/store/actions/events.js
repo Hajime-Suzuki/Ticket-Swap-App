@@ -33,7 +33,7 @@ export const filterEvents = ({ name, date }) => async (dispatch, getState) => {
     dispatch({ type: FETCH_EVENTS_AND_RELATIONS, payload: data })
     dispatch({ type: FETCH_TOTAL_EVENT_NUMBER, payload: 1 })
   } catch (e) {
-    console.log(e.response)
+    console.log(e.response.data)
   }
 }
 
@@ -68,7 +68,7 @@ export const deleteEvent = eventId => async (dispatch, getState) => {
     })
     dispatch(fetchEventsAndRelations())
   } catch (e) {
-    console.log(e)
+    console.log(e.response.data)
   }
 }
 

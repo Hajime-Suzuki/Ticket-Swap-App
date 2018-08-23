@@ -1,33 +1,31 @@
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToMany,
-  OneToOne,
-  JoinTable,
-  BeforeInsert,
-  AfterLoad
-} from 'typeorm'
-import { Exclude } from 'class-transformer'
-import { MinLength, IsString, IsEmail } from 'class-validator'
 import * as bcrypt from 'bcrypt'
-import Ticket from './Ticket'
-import Comment from './Comment'
+import { Exclude } from 'class-transformer'
+import { IsEmail, IsString, MinLength } from 'class-validator'
+import {
+  AfterLoad,
+  BaseEntity,
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm'
 import { sign } from '../jwt/jwt'
+import Comment from './Comment'
+import Ticket from './Ticket'
 
 @Entity()
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  // @IsString()
-  // @MinLength(2)
+  @IsString()
+  @MinLength(2)
   @Column('varchar', { length: 255 })
   firstName: string
 
-  // @IsString()
-  // @MinLength(2)
+  @IsString()
+  @MinLength(2)
   @Column('varchar', { length: 255 })
   lastName: string
 

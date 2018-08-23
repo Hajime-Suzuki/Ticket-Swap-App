@@ -1,10 +1,12 @@
+import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
 import React, { PureComponent } from 'react'
-import { formatDate } from '../../lib/formatDateString'
-import { Typography, Paper, Grid, Divider, Button } from '@material-ui/core'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { formatDate } from '../../lib/formatDateString'
+import { updateComment, deleteComment } from '../../store/actions/comments'
 import { spacing } from '../../styles/styleConstants'
 import CommentForm from './CommentForm'
-import Icon from '@material-ui/core/Icon'
 
 const StyledPaper = styled(Paper)`
   padding: ${spacing.padding.wider} 1em;
@@ -34,7 +36,7 @@ class CommentsList extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault()
-    // this.props.updateTicket(this.state.ticketData, this.props.ticket.id)
+    this.props.updateComment(this.state.commentData, this.state.commentId)
     this.toggleEditForm()
   }
 
@@ -46,6 +48,10 @@ class CommentsList extends PureComponent {
         [name]: value
       }
     })
+  }
+
+  deleteComment = commentId => {
+    this.props.deleteComment(commentId)
   }
 
   toggleEditForm = id => {
@@ -81,6 +87,7 @@ class CommentsList extends PureComponent {
                       className="icon-button"
                       variant="fab"
                       color="secondary"
+                      onClick={() => this.deleteComment(comment.id)}
                     >
                       <Icon className="icon">delete_forever</Icon>
                     </Button>
@@ -115,5 +122,7 @@ class CommentsList extends PureComponent {
     )
   }
 }
-
-export default CommentsList
+export default connect(
+  null,
+  { updateComment, deleteComment }
+)(CommentsList)

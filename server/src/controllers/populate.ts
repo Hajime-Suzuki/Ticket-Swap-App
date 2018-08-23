@@ -1,9 +1,10 @@
-import { JsonController, Get } from 'routing-controllers'
 import * as faker from 'faker'
+import { Get, JsonController } from 'routing-controllers'
+import Comment from '../entities/Comment'
 import Event from '../entities/Event'
 import Ticket from '../entities/Ticket'
 import User from '../entities/User'
-import Comment from '../entities/Comment'
+
 @JsonController('/populate')
 export default class PopulateController {
   @Get('/')
@@ -34,7 +35,8 @@ export default class PopulateController {
         return Event.create({
           name: faker.commerce.productName(),
           description: faker.lorem.sentence(),
-          image: 'https://fakeimg.pl/1500x1200/?text=Event',
+
+          image: 'https://source.unsplash.com/random',
           startDate: faker.date.between('2018-08-20', '2018-08-10'),
           endDate: faker.date.between('2018-08-10', '2018-9-20')
         })
@@ -58,7 +60,7 @@ export default class PopulateController {
         return Ticket.create({
           price: Number(faker.commerce.price(30, 300)),
           description: faker.lorem.sentence(),
-          image: 'https://fakeimg.pl/1500x1200/?text=Ticket',
+          image: 'https://source.unsplash.com/random',
           createdAt: faker.date.between('2018-08-01', new Date()),
           event
         })
@@ -92,28 +94,13 @@ export default class PopulateController {
         return Comment.create({
           content: faker.lorem.sentence(),
           ticket: tickets[randomIndexForTickets],
-          // user: users[randomIndexForUsers],
           user: users[randomIndexForUsers],
           createdAt: faker.date.between('2018-08-01', new Date())
         })
       })
 
-    const comments = await Comment.save(commentsArr)
-    // const comment = await Comment.create({
-    //   content: 'aisehtnioansihoteniaoeshitneoa',
-    //   ticket: tickets[1],
-    //   user: { id: 1 },
-    //   createdAt: faker.date.between('2018-08-01', new Date())
-    // }).save()
-    // return Event.findOne(
-    //   { id: events[0].id },
-    //   { relations: ['tickets', 'tickets.user'] }
-    // )
-    // return User.findOne(
-    //   { id: 1 },
-    //   { relations: ['comments'], select: ['firstName', 'email', 'id'] }
-    // )
-    // return Comment.findOne({ id: 1 })
+    await Comment.save(commentsArr)
+
     await Promise.all([
       User.create({
         firstName: 'Hajime',

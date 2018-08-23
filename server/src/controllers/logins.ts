@@ -1,9 +1,9 @@
 import { IsString } from 'class-validator'
 import {
-  JsonController,
-  Post,
+  BadRequestError,
   Body,
-  BadRequestError
+  JsonController,
+  Post
 } from 'routing-controllers'
 import User from '../entities/User'
 import { sign } from '../jwt/jwt'
@@ -27,7 +27,7 @@ export default class LoginController {
     if (!(await user.checkPassword(password)))
       throw new BadRequestError('The password is not correct')
 
-    const jwt = sign({ id: user.id })
+    const jwt = sign({ id: user.id, admin: user.admin })
     return { jwt }
   }
 }

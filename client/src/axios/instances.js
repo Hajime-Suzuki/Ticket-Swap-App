@@ -14,3 +14,7 @@ export const userAxios = axios.create({
 export const authAxios = axios.create({
   baseURL: 'http://localhost:4000/auth'
 })
+
+export const commentAxios = axios.create({
+  baseURL: 'http://localhost:4000/comments'
+})
