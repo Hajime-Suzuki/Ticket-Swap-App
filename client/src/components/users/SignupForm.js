@@ -2,8 +2,18 @@ import React, { PureComponent } from 'react'
 import { signup } from '../../store/actions/users'
 import { connect } from 'react-redux'
 import { clearErrorMessages } from '../../store/actions/errorMessages'
+import { StyledGridContainer } from '../../styles/components/StyledGridContainer'
+import { Typography, Grid, TextField, Input, Button } from '@material-ui/core'
+
 class SignupForm extends PureComponent {
-  state = {}
+  state = {
+    name: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: ''
+  }
 
   componentDidMount() {
     this.props.clearErrorMessages()
@@ -22,68 +32,92 @@ class SignupForm extends PureComponent {
 
   render() {
     return (
-      <div className="signup-form">
-        {this.props.message ? (
-          <p style={{ color: 'red' }}>{this.props.message}</p>
-        ) : null}
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={this.state.email || ''}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            First Name
-            <input
+      <form onSubmit={this.handleSubmit}>
+        <StyledGridContainer
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          spacing={40}
+        >
+          {this.props.message ? (
+            <Typography style={{ color: 'red' }}>
+              {this.props.message}
+            </Typography>
+          ) : null}
+          <Grid item xs={12}>
+            <TextField
+              label="First Name"
               type="text"
               name="firstName"
-              value={this.state.firstName || ''}
+              inputProps={{
+                pattern: '.{2,}',
+                title: 'At leaset 2 characters'
+              }}
+              required
+              value={this.state.firstName}
               onChange={this.handleChange}
             />
-          </label>
-          <label>
-            Last Name
-            <input
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Last Name"
               type="text"
               name="lastName"
-              value={this.state.lastName || ''}
+              inputProps={{
+                pattern: '.{2,}',
+                title: 'At leaset 2 characters'
+              }}
+              required
+              value={this.state.lastName}
               onChange={this.handleChange}
             />
-          </label>
-
-          <label>
-            Password
-            <input
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              required
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Password"
               type="password"
               name="password"
-              value={this.state.password || ''}
+              required
+              value={this.state.password}
               onChange={this.handleChange}
             />
-          </label>
-
-          <label>
-            Confirm password
-            <input
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Confirm password"
               type="password"
               name="confirmPassword"
-              value={this.state.confirmPassword || ''}
+              required
+              value={this.state.confirmPassword}
               onChange={this.handleChange}
             />
-          </label>
+          </Grid>
 
-          {this.state.password &&
-            this.state.confirmPassword &&
-            this.state.password !== this.state.confirmPassword && (
-              <p style={{ color: 'red' }}>The passwords do not match!</p>
-            )}
-
-          <button type="submit">Sign up</button>
-        </form>
-      </div>
+          {this.state.password !== this.state.confirmPassword && (
+            <Grid item xs={12}>
+              <Typography style={{ color: 'red' }}>
+                The passwords do not match!
+              </Typography>
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <Button type="submit" color="primary" variant="contained">
+              Sign up
+            </Button>
+          </Grid>
+        </StyledGridContainer>
+      </form>
     )
   }
 }

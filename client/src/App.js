@@ -10,11 +10,13 @@ import NavigationBar from './components/UI/NavigationBar'
 import SignupForm from './components/users/SignupForm'
 import LoginForm from './components/users/LoginForm'
 import SellTicketFormContainer from './components/tickets/SellTicketFormContainer'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        {/* <CssBaseline /> */}
         <NavigationBar />
         <Route path="/" exact component={Home} />
         <Route path="/events" exact component={EventsContainer} />

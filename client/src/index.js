@@ -8,12 +8,16 @@ import history from './lib/history'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import store from './store'
+import { theme } from './theme'
+import { MuiThemeProvider } from '@material-ui/core'
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <Router history={history}>
-        <App />
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
       </Router>
     </BrowserRouter>
   </Provider>,
