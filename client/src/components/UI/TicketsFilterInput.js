@@ -4,6 +4,13 @@ import { connect } from 'react-redux'
 import 'flatpickr/dist/themes/material_green.css'
 
 import Flatpickr from 'react-flatpickr'
+import { TextField, Button } from '@material-ui/core'
+
+import styled from 'styled-components'
+
+const StyledDatePicker = styled(Flatpickr)`
+  border: none;
+`
 
 class TicketFilterInput extends Component {
   state = {
@@ -13,6 +20,8 @@ class TicketFilterInput extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    console.log('submit')
+
     this.props.filterEvents({ name: this.state.name, date: this.state.date })
   }
 
@@ -21,29 +30,28 @@ class TicketFilterInput extends Component {
     this.setState({
       [name]: value
     })
+    // this.props.filterEvents({ name: this.state.name, date: this.state.date })
   }
   render() {
     const { date } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
-        <label>
-          filter
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </label>
+        <TextField
+          name="name"
+          type="search"
+          value={this.state.name}
+          onChange={this.handleChange}
+        />
         Ends after:
-        <Flatpickr
+        <StyledDatePicker
           value={date}
           onChange={date => {
             this.setState({ date: date[0] })
           }}
-          dateFormat="m-d-Y"
         />
-        <button>Search</button>
+        <Button color="secondary" variant="contained" type="sumbit">
+          Search
+        </Button>
       </form>
     )
   }

@@ -1,9 +1,24 @@
 import React, { PureComponent } from 'react'
-import { calculateFraudRisk } from '../../lib/calculateFraudRisk'
+import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
 import { formatDate } from '../../lib/formatDateString'
 import SellTicketForm from './SellTicketForm'
 import { connect } from 'react-redux'
 import { updateTicket } from '../../store/actions/tickets'
+import { Typography, Paper, Grid, Button } from '@material-ui/core'
+import EventInfoHeader from '../events/components/EventInfoHeader'
+import styled from 'styled-components'
+import { spacing } from '../../styles/styleConstants'
+import CommentsList from '../comments/CommentsList'
+
+const StyledPaper = styled(Paper)`
+  padding: ${spacing.padding.wider} 1em;
+  .space {
+    margin-top: 30px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+`
 
 class SingleTicket extends PureComponent {
   state = {
@@ -37,28 +52,43 @@ class SingleTicket extends PureComponent {
 
     return (
       <div>
-        <p>
-          {ticket.user.id} {currentUser.id}
-        </p>
-        <h1>Ticket from {ticket.user.firstName}</h1>
-        <h2>€{ticket.price}</h2>
-        <p>for event: {event.name}</p>
-        {risk ? <p>risk: {risk}</p> : null}
-        <p>desc: {ticket.description}</p>
+        <EventInfoHeader event={event} />
+        <Grid container justify="center">
+          <Grid item xs={11} md={9} lg={7}>
+            <StyledPaper>
+              <Typography variant="display1" className="space">
+                Seller: {ticket.user.firstName} {ticket.user.lastName}
+              </Typography>
 
-        <h4>comments</h4>
-        {ticket.comments.map(c => {
-          return (
-            <p key={c.id}>
-              {`${c.user.firstName} ${c.user.lastName}`}: {c.content}
-              {formatDate(c.createdAt)}
-            </p>
-          )
-        })}
-        {ticket.user.id === currentUser.id || currentUser.admin ? (
-          <button onClick={this.toggleEditForm}>Edit</button>
+              <Typography variant="display1" className="space">
+                €{ticket.price}
+              </Typography>
+              {risk ? (
+                <Typography variant="subheading" className="space">
+                  risk:{' '}
+                  <span style={{ color: generateColor(risk) }}>{risk}%</span>
+                </Typography>
+              ) : null}
+              <Typography className="space">{ticket.description}</Typography>
+              <Button className="space" color="primary" variant="contained">
+                Check out
+              </Button>
+            </StyledPaper>
+          </Grid>
+        </Grid>
+        {ticket.comments.length ? (
+          <CommentsList ticket={ticket} margin={spacing.normal} />
         ) : null}
-
+        {ticket.user.id === currentUser.id || currentUser.admin ? (
+          <Button
+            style={{ marginTop: spacing.normal }}
+            color="secondary"
+            variant="outlined"
+            onClick={this.toggleEditForm}
+          >
+            Edit this ticket
+          </Button>
+        ) : null}
         {this.state.showEdit ? (
           <SellTicketForm
             initial={ticket}

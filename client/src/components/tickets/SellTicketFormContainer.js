@@ -7,6 +7,7 @@ import { checkJWT } from '../../lib/checkJWT'
 import { logout } from '../../store/actions/users'
 import SellTicketForm from './SellTicketForm'
 import history from '../../lib/history'
+import { Typography } from '@material-ui/core'
 
 class SellTicketFormContainer extends PureComponent {
   state = {}
@@ -44,10 +45,7 @@ class SellTicketFormContainer extends PureComponent {
     const event = this.props.currentEvent
     return (
       <div>
-        {this.props.message ? (
-          <p style={{ color: 'red' }}>{this.props.message}</p>
-        ) : null}
-        <h1>Sell ticket of : {event.name}</h1>
+        <Typography variant="display3">{event.name}</Typography>
         <SellTicketForm
           price={this.state.price}
           description={this.state.description}

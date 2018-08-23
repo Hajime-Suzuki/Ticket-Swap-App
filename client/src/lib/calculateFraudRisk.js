@@ -13,32 +13,24 @@ export const calculateFraudRisk = (ticket, tickets, count) => {
     tickets.length
 
   const diffPercent = Math.abs(((ticket.price - avarage) / avarage) * 100)
-  // console.log(ticket.price, avarage, diffPercent)
 
   if (count === 1) {
-    // console.log('only one ticket from the person')
     risk += 4
   }
 
   if (ticket.price > avarage) {
-    // console.log('expesive')
     risk -= diffPercent > 15 ? 15 : diffPercent
   } else if (ticket.price < avarage) {
-    // console.log('cheape')
     risk += diffPercent
   }
 
   if (createdHour >= 9 && createdHour <= 17) {
-    // console.log('businnes hour')
     risk -= 13
   } else {
-    // console.log('not businnes hour')
-
     risk += 13
   }
 
   if (ticket.comments.length > 3) {
-    // console.log('more comments')
     risk += 6
   }
 
@@ -47,4 +39,10 @@ export const calculateFraudRisk = (ticket, tickets, count) => {
   if (risk > 2 && risk < 98) return risk
   else if (risk > 98) return 98
   return 2
+}
+
+export const generateColor = risk => {
+  if (risk < 20) return '#99db97'
+  else if (risk < 60) return '#d8d563'
+  else return '#d85454'
 }

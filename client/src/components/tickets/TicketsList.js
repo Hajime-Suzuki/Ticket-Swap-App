@@ -1,7 +1,43 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { calculateFraudRisk } from '../../lib/calculateFraudRisk'
+import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
 import cloneDeep from 'lodash.clonedeep'
+import {
+  StyledGridContainer,
+  StyledCard,
+  CardMediaBGIamge,
+  CardMainSection,
+  TypographWithColor,
+  EventInfo
+} from '../../styles/components/StyledGridContainer'
+import {
+  Grid,
+  CardContent,
+  Typography,
+  CardActions,
+  Button
+} from '@material-ui/core'
+import styled from 'styled-components'
+import { formatDate } from '../../lib/formatDateString'
+import { spacing } from '../../styles/styleConstants'
+import EventInfoHeader from '../events/components/EventInfoHeader'
+
+const Circle = styled.span`
+  display: block;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  background-color: ${({ color }) => color};
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`
+
+const SellButton = styled(Button)`
+  && {
+    margin-bottom: ${spacing.normal}px;
+  }
+`
 
 const sortTickets = (tickets, option) => {
   tickets = cloneDeep(tickets)
@@ -30,50 +66,95 @@ const sortTickets = (tickets, option) => {
 
 const TicketsList = ({
   tickets,
-  eventId,
+  event,
   sortType,
   authorAsc,
   priceAsc,
   changeSortOption
 }) => {
   // console.log(sortTickets(tickets, { sortType, authorAsc, priceAsc }))
+  const lists = (
+    <StyledGridContainer
+      container
+      direction="row"
+      justify="space-evenly"
+      alignItems="flex-end"
+      spacing={40}
+    >
+      {sortTickets(tickets, { sortType, authorAsc, priceAsc }).map(ticket => {
+        const risk = calculateFraudRisk(ticket, tickets, ticket.user.tickets)
+        const color = generateColor(risk)
+        return (
+          <Grid item key={ticket.id} xs={11} sm={7} md={5} lg={4} xl={3}>
+            <StyledCard>
+              <CardMediaBGIamge
+                component="div"
+                image={ticket.image}
+                title={ticket.name}
+              />
+              <CardMainSection>
+                <CardContent>
+                  <Typography
+                    variant="subheading"
+                    children={`${ticket.user.firstName} ${
+                      ticket.user.lastName
+                    }`}
+                  />
+                  <Circle color={color} />
+                  <Typography
+                    gutterBottom
+                    variant="display1"
+                    component="h1"
+                    children={`€${ticket.price}`}
+                  />
+                  <Typography component="p" children={ticket.description} />
+                </CardContent>
 
-  const lists = sortTickets(tickets, { sortType, authorAsc, priceAsc }).map(
-    ticket => {
-      const risk = calculateFraudRisk(ticket, tickets, ticket.user.tickets)
-
-      let color
-      if (risk < 20) color = 'green'
-      else if (risk < 60) color = 'yellow'
-      else color = 'red'
-
-      return (
-        <Link to={`/tickets/${ticket.id}`} key={ticket.id}>
-          <div style={{ backgroundColor: color }}>
-            <h1>from {ticket.user.firstName}</h1>
-            <h2>€{ticket.price}</h2>
-            <img style={{ width: '30%' }} src={ticket.image} alt="event" />
-            <p>{ticket.description}</p>
-          </div>
-        </Link>
-      )
-    }
+                <CardActions>
+                  <Button color="primary" variant="contained">
+                    <Link to={`/tickets/${ticket.id}`} key={ticket.id}>
+                      <TypographWithColor textcolor="white">
+                        See Details
+                      </TypographWithColor>
+                    </Link>
+                  </Button>
+                </CardActions>
+              </CardMainSection>
+            </StyledCard>
+          </Grid>
+        )
+      })}
+    </StyledGridContainer>
   )
 
-  // const priceSymbol = priceAsc === null ? '↑' : priceAsc === true ? '↑ ' : '↓'
   return (
     <div>
-      <Link to={`/sell/${eventId}`}>Sell a ticket of this event</Link>
-      <button
-        onClick={() => changeSortOption('priceAsc', priceAsc ? false : true)}
-      >
-        Sort By Price {priceAsc === false ? '↓' : '↑'}
-      </button>
-      <button
-        onClick={() => changeSortOption('authorAsc', authorAsc ? false : true)}
-      >
-        Sort By Author {authorAsc === false ? '↓' : '↑'}
-      </button>
+      <EventInfoHeader event={event} />
+
+      <SellButton color="primary" variant="contained">
+        <Link to={`/sell/${event.id}`}>
+          <TypographWithColor textcolor="white">Sell Ticket</TypographWithColor>
+        </Link>
+      </SellButton>
+
+      <div>
+        <Button
+          color="secondary"
+          variant="outlined"
+          onClick={() => changeSortOption('priceAsc', priceAsc ? false : true)}
+        >
+          Sort By Price {priceAsc === false ? '↓' : '↑'}
+        </Button>
+        <Button
+          color="secondary"
+          variant="outlined"
+          onClick={() =>
+            changeSortOption('authorAsc', authorAsc ? false : true)
+          }
+        >
+          Sort By Author {authorAsc === false ? '↓' : '↑'}
+        </Button>
+      </div>
       <div>{lists}</div>
     </div>
   )

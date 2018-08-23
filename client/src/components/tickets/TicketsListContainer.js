@@ -24,17 +24,17 @@ class TicketsContainer extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
 
     if (!this.props.currentTickets) return null
     return (
       <TicketsList
         tickets={this.props.currentTickets}
-        eventId={this.props.match.params.eventId}
         sortType={this.state.sortType}
         priceAsc={this.state.priceAsc}
         authorAsc={this.state.authorAsc}
         changeSortOption={this.changeSortOption}
+        event={this.props.currentEvent}
       />
     )
   }
@@ -45,6 +45,7 @@ const mapSateToProps = (state, props) => {
     state.events && state.events.find(data => data.event.id === Number(eventId))
 
   return {
+    currentEvent: currentEventData && currentEventData.event,
     currentTickets: currentEventData && currentEventData.tickets
   }
 }

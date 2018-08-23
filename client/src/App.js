@@ -18,16 +18,18 @@ class App extends Component {
       <div className="App">
         {/* <CssBaseline /> */}
         <NavigationBar />
-        <Route path="/" exact component={Home} />
-        <Route path="/events" exact component={EventsContainer} />
-        <Route
-          path="/events/:eventId/tickets"
-          component={TicketsListContainer}
-        />
-        <Route path="/sell/:eventId" component={SellTicketFormContainer} />
-        <Route path="/tickets/:ticketId" component={SingleTicketContainer} />
-        <Route path="/signup" exact component={SignupForm} />
-        <Route path="/login" exact component={LoginForm} />
+        <div style={{ padding: '50px 0' }}>
+          <Route path="/" exact component={Home} />
+          <Route path="/events" exact component={EventsContainer} />
+          <Route
+            path="/events/:eventId/tickets"
+            component={TicketsListContainer}
+          />
+          <Route path="/sell/:eventId" component={SellTicketFormContainer} />
+          <Route path="/tickets/:ticketId" component={SingleTicketContainer} />
+          <Route path="/signup" exact component={SignupForm} />
+          <Route path="/login" exact component={LoginForm} />
+        </div>
       </div>
     )
   }
