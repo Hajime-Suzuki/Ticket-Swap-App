@@ -17,6 +17,7 @@ class EventsContainer extends Component {
         changePage={this.props.changePage}
         pageNum={this.props.pageNum}
         pageTotal={this.props.pageTotal}
+        currentUser={this.props.currentUser}
       />
     ) : (
       <p>loading...</p>
@@ -27,7 +28,8 @@ const mapSateToProps = state => {
   return {
     events: state.events && state.events.map(event => event.event),
     pageNum: state.pageNum,
-    pageTotal: state.pageTotal
+    pageTotal: state.pageTotal,
+    currentUser: state.currentUser
   }
 }
 export default connect(

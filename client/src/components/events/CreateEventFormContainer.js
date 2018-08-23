@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { fetchEventsAndRelations } from '../../store/actions/events'
+import { createEvent } from '../../store/actions/events'
 import { addTicket } from '../../store/actions/tickets'
 import { checkJWT } from '../../lib/checkJWT'
 import { logout } from '../../store/actions/users'
-import SellTicketForm from './SellTicketForm'
+
 import history from '../../lib/history'
+import CreateEventForm from './CreateEventForm'
 import { Typography } from '@material-ui/core'
 
-class SellTicketFormContainer extends PureComponent {
+class CreateEventFormContainer extends PureComponent {
   state = {}
 
   async componentDidMount() {
-    if (!this.props.currentUser) {
+    if (!this.props.currentUser || !this.props.currentUser.admin) {
       return history.replace('/login')
     }
 
@@ -22,15 +23,11 @@ class SellTicketFormContainer extends PureComponent {
       this.props.logout()
       return history.replace('/login')
     }
-
-    if (!this.props.currentEvent) {
-      this.props.fetchEventsAndRelations()
-    }
   }
 
   handleSubmit = e => {
     e.preventDefault()
-    this.props.addTicket(this.state, this.props.match.params.eventId)
+    this.props.createEvent(this.state)
   }
 
   handleChange = event => {
@@ -41,16 +38,16 @@ class SellTicketFormContainer extends PureComponent {
   }
 
   render() {
-    if (!this.props.currentEvent) return null
-    const event = this.props.currentEvent
+    if (!this.props.currentUser) return null
     return (
       <div>
-        <Typography variant="display3">{event.name}</Typography>
-        <SellTicketForm
-          price={this.state.price}
+        <Typography variant="display3">Create Event</Typography>
+        <CreateEventForm
+          name={this.state.name}
           description={this.state.description}
           image={this.state.image}
-          event={this.props.currentEvent}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
         />
@@ -59,16 +56,11 @@ class SellTicketFormContainer extends PureComponent {
   }
 }
 
-const mapSateToProps = (state, props) => ({
-  currentEvent:
-    state.events &&
-    state.events
-      .map(data => data.event)
-      .find(event => event.id === Number(props.match.params.eventId)),
+const mapSateToProps = state => ({
   currentUser: state.currentUser
 })
 
 export default connect(
   mapSateToProps,
-  { fetchEventsAndRelations, addTicket, logout }
-)(SellTicketFormContainer)
+  { logout, createEvent }
+)(CreateEventFormContainer)

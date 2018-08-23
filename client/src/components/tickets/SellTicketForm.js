@@ -9,6 +9,7 @@ const StyledGrid = styled(Grid)`
     .input {
       margin-bottom: 3em;
     }
+    margin-top: ${({ margin }) => margin}px;
   }
 `
 const SellTicketForm = props => {
@@ -21,6 +22,7 @@ const SellTicketForm = props => {
 
       <form onSubmit={props.handleSubmit}>
         <StyledGrid
+          margin={props.margin}
           container
           direction="column"
           justify="center"

@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { spacing } from '../../styles/styleConstants'
 import CommentsList from '../comments/CommentsList'
 
+import { DeleteButton } from '../../styles/components/StyledGridContainer'
 const StyledPaper = styled(Paper)`
   padding: ${spacing.padding.wider} 1em;
   .space {
@@ -77,9 +78,22 @@ class SingleTicket extends PureComponent {
           </Grid>
         </Grid>
         {ticket.comments.length ? (
-          <CommentsList ticket={ticket} margin={spacing.normal} />
+          <CommentsList
+            ticket={ticket}
+            currentUser={currentUser}
+            margin={spacing.normal}
+          />
         ) : null}
-        {ticket.user.id === currentUser.id || currentUser.admin ? (
+        {currentUser && currentUser.admin ? (
+          <DeleteButton
+            style={{ marginTop: spacing.normal }}
+            variant="contained"
+          >
+            Delete this ticket
+          </DeleteButton>
+        ) : null}
+        {ticket.user.id === (currentUser && currentUser.id) ||
+        (currentUser && currentUser.admin) ? (
           <Button
             style={{ marginTop: spacing.normal }}
             color="secondary"
@@ -89,6 +103,7 @@ class SingleTicket extends PureComponent {
             Edit this ticket
           </Button>
         ) : null}
+
         {this.state.showEdit ? (
           <SellTicketForm
             initial={ticket}
@@ -97,6 +112,7 @@ class SingleTicket extends PureComponent {
             image={this.state.ticketData.image}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
+            margin={spacing.normal}
           />
         ) : null}
       </div>

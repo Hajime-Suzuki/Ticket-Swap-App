@@ -6,7 +6,22 @@ http://localhost:4000/events/filter?name=soap&date=
 http://localhost:4000/auth
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImlhdCI6MTUzNDg5NDM1NCwiZXhwIjoxNTM1NDk5MTU0fQ.cnLOER6AI8DJ3ego5mTQ5bz3VcW9xakx6lDNEobK8XA
+###
+DELETE http://localhost:4000/events/33
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImFkbWluIjp0cnVlLCJpYXQiOjE1MzUwNTM2ODMsImV4cCI6MTUzNTY1ODQ4M30.fx-M6ZpdlLUEdlPj7qThs3FYzKYGcK21nvFubNB28Ys
+###
+PATCH http://localhost:4000/events/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImFkbWluIjp0cnVlLCJpYXQiOjE1MzUwNTM2ODMsImV4cCI6MTUzNTY1ODQ4M30.fx-M6ZpdlLUEdlPj7qThs3FYzKYGcK21nvFubNB28Ys
 
+{
+  "name":"test",
+  "description": "test",
+  "image": "https://source.unsplash.com/random",
+  "startDate": "2018-07-12",
+  "endDate": "2019-01-01"
+}
 ###
 http://localhost:4000/events/test
 

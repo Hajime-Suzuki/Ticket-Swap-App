@@ -17,13 +17,13 @@ const reducer = (state = initialState, { type, payload } = {}) => {
     case SIGN_UP_USER:
       return {
         token: payload.token,
-        userId: payload.id,
+        id: payload.id,
         admin: payload.admin
       }
     case LOG_IN_USER:
       return {
         token: payload.token,
-        userId: payload.id,
+        id: payload.id,
         admin: payload.admin
       }
     case LOG_OUT_USER:

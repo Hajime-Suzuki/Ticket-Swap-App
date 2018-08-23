@@ -1,6 +1,14 @@
 import styled from 'styled-components'
 import { toolbarHeight, spacing } from '../styleConstants'
-import { Grid, Typography, Card, CardMedia } from '@material-ui/core'
+import {
+  Grid,
+  Typography,
+  Card,
+  CardMedia,
+  CardActions,
+  Button
+} from '@material-ui/core'
+import { darken } from 'polished'
 
 export const StyledGridContainer = styled(Grid)`
   && {
@@ -23,7 +31,9 @@ export const TypographWithColor = styled(Typography)`
 export const StyledCard = styled(Card)`
   /* margin: ${spacing.padding.normal};
   max-width: 500px; */
-
+  .button{
+    margin: auto ;
+  }
 `
 
 export const CardMainSection = styled(Card)`
@@ -39,4 +49,19 @@ export const CardMainSection = styled(Card)`
 
 export const CardMediaBGIamge = styled(CardMedia)`
   height: 30vh;
+`
+
+export const CardActionsCentered = styled(CardActions)`
+  display: flex;
+  justify-content: center;
+`
+
+export const DeleteButton = styled(Button)`
+  &&& {
+    color: white;
+    background-color: #ef5350;
+    &:hover {
+      background-color: ${darken(0.1, '#ef5350')};
+    }
+  }
 `

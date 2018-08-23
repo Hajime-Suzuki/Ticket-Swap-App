@@ -59,8 +59,15 @@ const NavigationBar = props => {
             <StyledButton>SIGN UP</StyledButton>
           </Link>
         )}
+
+        {props.currentUser && props.currentUser.admin ? (
+          <Link to="/events/create">
+            <StyledButton>Create Event</StyledButton>
+          </Link>
+        ) : null}
+
         {props.currentUser ? (
-          <Button onClick={props.logout}>logout</Button>
+          <StyledButton onClick={props.logout}>logout</StyledButton>
         ) : null}
       </Toolbar>
     </AppBar>

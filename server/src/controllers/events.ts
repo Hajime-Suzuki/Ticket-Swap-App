@@ -1,4 +1,21 @@
-import { Get, JsonController, QueryParam, BodyParam } from 'routing-controllers'
+import {
+  Get,
+  JsonController,
+  QueryParam,
+  BodyParam,
+  Put,
+  Authorized,
+  Patch,
+  CurrentUser,
+  UnauthorizedError,
+  Body,
+  Params,
+  Param,
+  HttpCode,
+  Post,
+  Delete,
+  NotFoundError
+} from 'routing-controllers'
 import Event from '../entities/Event'
 import User from '../entities/User'
 import Ticket from '../entities/Ticket'
@@ -33,8 +50,6 @@ export default class EventController {
       .printSql()
       .getMany()
 
-    // console.log(events.length)
-
     const { count } = await Event.createQueryBuilder('e')
       .select('COUNT (e.id)', 'count')
       .where('e.endDate > :date', { date: new Date() })
@@ -67,84 +82,51 @@ export default class EventController {
       ])
       .where('e.name Ilike :name', { name: `%${name}%` })
       .andWhere('e.endDate > :date', { date: date || new Date() })
-      // .take(4)
-      // .skip(4 * pageNum - 4)
       .getMany()
 
     console.log(events)
 
-    // const { count } = await Event.createQueryBuilder('e')
-    //   .select('COUNT (e.id)', 'count')
-    //   .where('e.name Ilike :name', { name: `%${name}%` })
-    //   .andWhere('e.endDate > :date', { date: new Date() })
-    //   .getRawOne()
-
-    // console.log('total', count)
-
     return {
       events
-      // count: Math.ceil(count / 4)
     }
   }
 
-  @Get('/test')
-  async test() {
-    const events = await Event.createQueryBuilder('e')
+  @Authorized()
+  @Post('/')
+  @HttpCode(201)
+  async createEvent(@CurrentUser() user: User, @Body() eventData: Event) {
+    if (!user.admin) throw new UnauthorizedError('Not Allowed')
+    const event = await Event.create(eventData).save()
+    return event
+  }
 
-    // .leftJoinAndSelect('e.tickets', 't')
-    // .leftJoinAndSelect('t.user', 'u')
-    // .leftJoin('t.comments', 'c')
-    // .leftJoin('c.user', 'cu')
-    // .leftJoin('u.tickets', 'ut')
-    // .select([
-    //   'e',
-    //   't',
-    //   'u',
-    //   'c',
-    //   'ut.id',
-    //   'cu.id',
-    //   'cu.firstName',
-    //   'cu.lastName'
-    // ])
-    // .take(4)
-    // .skip(0)
-    // .orderBy('e.id')
-    // .getMany()
+  @Authorized()
+  @Patch('/:eventId')
+  async updateEvent(
+    @Param('eventId') eventId: number,
+    @CurrentUser() user: User,
+    @Body() eventData: Event
+  ) {
+    if (!user.admin) throw new UnauthorizedError('Not Allowed')
+    const event = await Event.findOne({ id: eventId })
+    if (!event) throw new NotFoundError()
+    await Event.update(eventId, eventData)
+    return true
+  }
 
-    // const tickets = await Ticket.createQueryBuilder('t')
-    //   .select(['t', 'e.id', 'u.id', 'u.firstName', 'u.lastName', 'ut.id'])
-    //   .leftJoin('t.event', 'e')
-    //   .leftJoin('t.user', 'u')
-    //   .leftJoin('u.tickets', 'ut')
-    //   .where('e.id IN (' + events.map(e => e.id) + ')')
-    //   .getMany()
+  @Authorized()
+  @Delete('/:eventId')
+  async deleteEvent(
+    @CurrentUser() user: User,
+    @Param('eventId') eventId: number
+  ) {
+    if (!user.admin) throw new UnauthorizedError('Not Allowed')
 
-    // const userIds = events
-    //   .map(d => {
-    //     const tickets = d.tickets
-    //     return tickets.map(t => t.user.id)
-    //   })
-    //   .reduce((arr, ids) => arr.concat(ids))
-    //   .filter((id, i, arr) => arr.indexOf(id) === i)
+    const event = await Event.findOne({ id: eventId })
 
-    // const cuont = await User.createQueryBuilder('u')
-    //   .select(['u.id', 't.id'])
-    //   .leftJoin('u.tickets', 't')
-    //   .addSelect('COUNT(t.id)', 'ccc')
-    //   .groupBy('t.id')
-    //   .addGroupBy('u.id')
-    //   .getMany()
+    if (!event) throw new NotFoundError()
+    await event.remove()
 
-    // const events = await User.createQueryBuilder('user')
-    //   // .select(['u.id', 'u.firstName'])
-    //   // .addSelect('COUNT(u.tickets)', 'sum')
-    //   .select('COUNT(user.tickets)', 'sum')
-    //   .getRawOne()
-
-    // console.log(events[0])
-
-    const count = await Event.count()
-
-    return count
+    return true
   }
 }

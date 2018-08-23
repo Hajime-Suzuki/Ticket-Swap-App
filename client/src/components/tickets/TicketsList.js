@@ -8,7 +8,8 @@ import {
   CardMediaBGIamge,
   CardMainSection,
   TypographWithColor,
-  EventInfo
+  EventInfo,
+  CardActionsCentered
 } from '../../styles/components/StyledGridContainer'
 import {
   Grid,
@@ -110,15 +111,15 @@ const TicketsList = ({
                   <Typography component="p" children={ticket.description} />
                 </CardContent>
 
-                <CardActions>
-                  <Button color="primary" variant="contained">
-                    <Link to={`/tickets/${ticket.id}`} key={ticket.id}>
+                <CardActionsCentered>
+                  <Link to={`/tickets/${ticket.id}`} key={ticket.id}>
+                    <Button color="primary" variant="contained">
                       <TypographWithColor textcolor="white">
                         See Details
                       </TypographWithColor>
-                    </Link>
-                  </Button>
-                </CardActions>
+                    </Button>
+                  </Link>
+                </CardActionsCentered>
               </CardMainSection>
             </StyledCard>
           </Grid>
@@ -131,11 +132,11 @@ const TicketsList = ({
     <div>
       <EventInfoHeader event={event} />
 
-      <SellButton color="primary" variant="contained">
-        <Link to={`/sell/${event.id}`}>
+      <Link to={`/sell/${event.id}`}>
+        <SellButton color="primary" variant="contained">
           <TypographWithColor textcolor="white">Sell Ticket</TypographWithColor>
-        </Link>
-      </SellButton>
+        </SellButton>
+      </Link>
 
       <div>
         <Button
