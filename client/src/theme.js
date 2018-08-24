@@ -2,7 +2,6 @@ import { createMuiTheme } from '../node_modules/@material-ui/core'
 
 export const theme = createMuiTheme({
   typography: {
-    // Use the system font instead of the default Roboto font.
     fontFamily: ['Share Tech Mono', 'Cuprum'].join(',')
   },
   palette: {

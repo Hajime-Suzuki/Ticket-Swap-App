@@ -1,38 +1,37 @@
-import React, { PureComponent } from 'react'
-import Link from 'react-router-dom/Link'
-import { formatDate } from '../../lib/formatDateString'
-import TicketFilterInput from '../UI/TicketsFilterInput'
-import { connect } from 'react-redux'
 import {
-  StyledGridContainer,
-  WhiteTypograph,
-  TypographWithColor,
-  StyledCard,
-  CardMediaBGIamge,
-  CardMainSection,
-  CardActionsCentered,
-  DeleteButton
-} from '../../styles/components/StyledGridContainer'
-import Pagenation from '../UI/Pagenation'
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
   Button,
+  CardContent,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
   DialogActions,
-  DialogContentText
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Typography
 } from '@material-ui/core'
-
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import Link from 'react-router-dom/Link'
 import styled from 'styled-components'
+import { deleteEvent, updateEvent } from '../../store/actions/events'
+import {
+  CardActionsCentered,
+  CardMainSection,
+  CardMediaBGIamge,
+  DeleteButton,
+  StyledCard,
+  StyledGridContainer,
+  TypographWithColor
+} from '../../styles/components/StyledGridContainer'
 import { spacing } from '../../styles/styleConstants'
+import Pagenation from '../UI/Pagenation'
+import TicketFilterInput from '../UI/TicketsFilterInput'
 import CreateEventForm from './CreateEventForm'
-import { updateEvent, deleteEvent } from '../../store/actions/events'
+
+const MainDiv = styled.div`
+  .filter {
+    margin: ${spacing.normal}px 0;
+  }
+`
 
 class Events extends PureComponent {
   state = {
@@ -121,8 +120,11 @@ class Events extends PureComponent {
     )
 
     return (
-      <div>
-        <TicketFilterInput />
+      <MainDiv>
+        <Typography variant="display3">Events</Typography>
+        <div className="filter">
+          <TicketFilterInput />
+        </div>
         {list}
         <Pagenation
           pageNum={pageNum}
@@ -167,7 +169,7 @@ class Events extends PureComponent {
             </DeleteButton>
           </DialogActions>
         </Dialog>
-      </div>
+      </MainDiv>
     )
   }
 }

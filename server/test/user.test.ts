@@ -1,7 +1,6 @@
 import User from '../src/entities/User'
 
 import * as supertest from 'supertest'
-// import { app } from '../src'
 
 const request = supertest.agent('http://localhost:4000/users')
 
@@ -13,8 +12,6 @@ describe('####User#####', () => {
       email: 'email@email.com',
       password: 'ashtasht'
     }
-
-    // const request = supertest(app)
 
     const { body } = await request
       .post('/')

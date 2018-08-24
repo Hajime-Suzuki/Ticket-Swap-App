@@ -1,25 +1,17 @@
+import { Button, CardContent, Grid, Typography } from '@material-ui/core'
+import cloneDeep from 'lodash.clonedeep'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
-import cloneDeep from 'lodash.clonedeep'
-import {
-  StyledGridContainer,
-  StyledCard,
-  CardMediaBGIamge,
-  CardMainSection,
-  TypographWithColor,
-  EventInfo,
-  CardActionsCentered
-} from '../../styles/components/StyledGridContainer'
-import {
-  Grid,
-  CardContent,
-  Typography,
-  CardActions,
-  Button
-} from '@material-ui/core'
 import styled from 'styled-components'
-import { formatDate } from '../../lib/formatDateString'
+import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
+import {
+  CardActionsCentered,
+  CardMainSection,
+  CardMediaBGIamge,
+  StyledCard,
+  StyledGridContainer,
+  TypographWithColor
+} from '../../styles/components/StyledGridContainer'
 import { spacing } from '../../styles/styleConstants'
 import EventInfoHeader from '../events/components/EventInfoHeader'
 
@@ -73,7 +65,6 @@ const TicketsList = ({
   priceAsc,
   changeSortOption
 }) => {
-  // console.log(sortTickets(tickets, { sortType, authorAsc, priceAsc }))
   const lists = (
     <StyledGridContainer
       container

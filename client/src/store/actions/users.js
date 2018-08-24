@@ -1,15 +1,15 @@
 import { userAxios as axios } from '../../axios/instances'
-import {
-  SIGN_UP_USER,
-  LOG_IN_USER,
-  LOG_OUT_USER,
-  LOG_IN_FAIL,
-  LOGIN_SUCCESS,
-  SIGN_UP_FAIL,
-  SIGN_UP_SUCCES
-} from '../constants/actionTypes'
 import { decodeToken } from '../../lib/decodeToken'
 import history from '../../lib/history'
+import {
+  LOGIN_SUCCESS,
+  LOG_IN_FAIL,
+  LOG_IN_USER,
+  LOG_OUT_USER,
+  SIGN_UP_FAIL,
+  SIGN_UP_SUCCES,
+  SIGN_UP_USER
+} from '../constants/actionTypes'
 
 export const signup = ({
   email,
@@ -34,7 +34,7 @@ export const signup = ({
       payload: { token, id: decded.id, admin: decded.admin }
     })
     dispatch({ type: SIGN_UP_SUCCES })
-    // history.replace('/events')
+    history.replace('/events')
   } catch (e) {
     dispatch({
       type: SIGN_UP_FAIL,
@@ -60,7 +60,7 @@ export const login = ({ email, password }) => async dispatch => {
       type: LOG_IN_USER,
       payload: { token, id: decded.id, admin: decded.admin }
     })
-    // history.replace('/events')
+    history.replace('/events')
     dispatch({ type: LOGIN_SUCCESS })
   } catch (e) {
     dispatch({

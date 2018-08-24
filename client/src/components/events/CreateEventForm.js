@@ -1,6 +1,5 @@
+import { Button, Grid, TextField } from '@material-ui/core'
 import React from 'react'
-
-import { TextField, Button, Grid } from '@material-ui/core'
 import styled from 'styled-components'
 
 const StyledGrid = styled(Grid)`
@@ -91,9 +90,6 @@ const CreateEventForm = props => {
                 type="date"
                 name="startDate"
                 required
-                // inputProps={{
-                //   min: minDate
-                // }}
                 InputLabelProps={{
                   shrink: true
                 }}

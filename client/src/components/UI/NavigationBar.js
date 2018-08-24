@@ -1,14 +1,13 @@
-import React from 'react'
-import Link from 'react-router-dom/Link'
-import { connect } from 'react-redux'
-import { logout } from '../../store/actions/users'
+import { Button, Toolbar, Typography } from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
-import { Toolbar, Typography, Button } from '@material-ui/core'
-import styled from 'styled-components'
 import { darken } from 'polished'
-
-import { theme } from '../../theme'
+import React from 'react'
+import { connect } from 'react-redux'
+import Link from 'react-router-dom/Link'
+import styled from 'styled-components'
+import { logout } from '../../store/actions/users'
 import { transition } from '../../styles/styleConstants'
+import { theme } from '../../theme'
 
 const white = theme.palette.white.main
 

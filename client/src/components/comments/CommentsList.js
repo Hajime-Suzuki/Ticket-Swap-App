@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { formatDate } from '../../lib/formatDateString'
-import { updateComment, deleteComment } from '../../store/actions/comments'
+import { deleteComment, updateComment } from '../../store/actions/comments'
 import { spacing } from '../../styles/styleConstants'
 import CommentForm from './CommentForm'
 
@@ -93,7 +93,7 @@ class CommentsList extends PureComponent {
                     </Button>
                   ) : null}
                   {(currentUser && currentUser.admin) ||
-                  currentUser.id === comment.id ? (
+                  (currentUser && currentUser.id === comment.id) ? (
                     <Button
                       variant="fab"
                       color="secondary"

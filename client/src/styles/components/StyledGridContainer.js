@@ -1,14 +1,14 @@
-import styled from 'styled-components'
-import { toolbarHeight, spacing } from '../styleConstants'
 import {
-  Grid,
-  Typography,
+  Button,
   Card,
-  CardMedia,
   CardActions,
-  Button
+  CardMedia,
+  Grid,
+  Typography
 } from '@material-ui/core'
 import { darken } from 'polished'
+import styled from 'styled-components'
+import { spacing, toolbarHeight } from '../styleConstants'
 
 export const StyledGridContainer = styled(Grid)`
   && {

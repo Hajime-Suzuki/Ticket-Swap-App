@@ -1,9 +1,9 @@
-import {
-  SIGN_UP_USER,
-  LOG_IN_USER,
-  LOG_OUT_USER
-} from '../constants/actionTypes'
 import { decodeToken } from '../../lib/decodeToken'
+import {
+  LOG_IN_USER,
+  LOG_OUT_USER,
+  SIGN_UP_USER
+} from '../constants/actionTypes'
 
 const token = localStorage.getItem('token')
 let initialState = null

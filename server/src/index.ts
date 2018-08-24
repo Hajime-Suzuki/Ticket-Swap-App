@@ -47,7 +47,7 @@ export const app = createKoaServer({
 connectDatabase()
   .then(_ => {
     app.listen(4000, () => {
-      console.log('4000!!!')
+      console.log('Server is on 4000')
     })
   })
   .catch(err => console.error(err))

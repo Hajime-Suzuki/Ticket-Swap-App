@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import Events from './Events'
 import { fetchEventsAndRelations } from '../../store/actions/events'
 import { changePage } from '../../store/actions/pageNum'
+import Events from './Events'
 
 class EventsContainer extends Component {
   componentDidMount() {

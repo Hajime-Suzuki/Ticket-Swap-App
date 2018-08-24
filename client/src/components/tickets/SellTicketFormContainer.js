@@ -1,13 +1,12 @@
+import { Typography } from '@material-ui/core'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { checkJWT } from '../../lib/checkJWT'
+import history from '../../lib/history'
 import { fetchEventsAndRelations } from '../../store/actions/events'
 import { addTicket } from '../../store/actions/tickets'
-import { checkJWT } from '../../lib/checkJWT'
 import { logout } from '../../store/actions/users'
 import SellTicketForm from './SellTicketForm'
-import history from '../../lib/history'
-import { Typography } from '@material-ui/core'
 
 class SellTicketFormContainer extends PureComponent {
   state = {}

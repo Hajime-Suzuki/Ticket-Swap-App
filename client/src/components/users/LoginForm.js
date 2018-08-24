@@ -1,10 +1,9 @@
+import { Button, Grid, TextField, Typography } from '@material-ui/core'
 import React, { PureComponent } from 'react'
-import { login } from '../../store/actions/users'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { clearErrorMessages } from '../../store/actions/errorMessages'
-import { TextField, Button, Grid, Typography } from '@material-ui/core'
-import styled from 'styled-components'
+import { login } from '../../store/actions/users'
 import { StyledGridContainer } from '../../styles/components/StyledGridContainer'
 
 class SignupForm extends PureComponent {

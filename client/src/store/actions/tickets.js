@@ -1,7 +1,6 @@
 import { ticketsAxios as axios } from '../../axios/instances'
-import { ADD_TICKET } from '../constants/actionTypes'
-import { fetchEventsAndRelations } from './events'
 import histroy from '../../lib/history'
+import { fetchEventsAndRelations } from './events'
 export const addTicket = (ticketData, eventId) => async (
   dispatch,
   getState

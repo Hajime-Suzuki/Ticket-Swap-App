@@ -13,14 +13,9 @@ const StyledGrid = styled(Grid)`
   }
 `
 const CommentForm = props => {
-  // console.log(props.descriptionState === undefined)
-  // console.log(props.priceState !== undefined)
-
   const { initial } = props
   return (
     <div>
-      {/* {props.message ? <p style={{ color: 'red' }}>{props.message}</p> : null} */}
-
       <form onSubmit={props.handleSubmit}>
         <StyledGrid
           margin={props.margin}

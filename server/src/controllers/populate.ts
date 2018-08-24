@@ -35,7 +35,6 @@ export default class PopulateController {
         return Event.create({
           name: faker.commerce.productName(),
           description: faker.lorem.sentence(),
-
           image: 'https://source.unsplash.com/random',
           startDate: faker.date.between('2018-08-20', '2018-08-10'),
           endDate: faker.date.between('2018-08-10', '2018-9-20')

@@ -1,23 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchEventsAndRelations } from '../../store/actions/events'
 import SingleTicket from './SingleTicket'
 
-import { connect } from 'react-redux'
-
-import { userAxios as axios } from '../../axios/instances'
-import { fetchEventsAndRelations } from '../../store/actions/events'
-
 class SingleTicketContainer extends Component {
-  // state = {
-  //   count: null
-  // }
   componentDidMount() {
     if (!this.props.currentTicket) {
       this.props.fetchEventsAndRelations()
     }
-
-    // axios
-    //   .get(`/count-tickets/${this.props.match.params.ticketId}`)
-    //   .then(({ data }) => this.setState({ count: data }))
   }
 
   render() {

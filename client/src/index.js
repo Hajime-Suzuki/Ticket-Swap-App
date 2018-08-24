@@ -1,15 +1,14 @@
-import './index.css'
-
-import { BrowserRouter, Router } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { MuiThemeProvider } from '@material-ui/core'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import history from './lib/history'
+import { Provider } from 'react-redux'
+import { BrowserRouter, Router } from 'react-router-dom'
 import App from './App'
+import './index.css'
+import history from './lib/history'
 import registerServiceWorker from './registerServiceWorker'
 import store from './store'
 import { theme } from './theme'
-import { MuiThemeProvider } from '@material-ui/core'
 
 ReactDOM.render(
   <Provider store={store}>

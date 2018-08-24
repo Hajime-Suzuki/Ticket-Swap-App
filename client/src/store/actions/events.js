@@ -1,13 +1,12 @@
+import { eventsAxios as axios } from '../../axios/instances'
+import history from '../../lib/history'
 import {
   FETCH_EVENTS_AND_RELATIONS,
   FETCH_TOTAL_EVENT_NUMBER
 } from '../constants/actionTypes'
-import { eventsAxios as axios } from '../../axios/instances'
-import history from '../../lib/history'
 
 export const fetchEventsAndRelations = () => async (dispatch, getState) => {
   try {
-    console.log('fetch')
     const { data, count } = await getDataAndFormat(
       {
         pageNum: getState().pageNum

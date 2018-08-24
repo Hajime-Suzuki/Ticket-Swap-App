@@ -1,16 +1,7 @@
+import { Button, TextField, Typography } from '@material-ui/core'
 import React, { Component } from 'react'
-import { filterEvents } from '../../store/actions/events'
 import { connect } from 'react-redux'
-import 'flatpickr/dist/themes/material_green.css'
-
-import Flatpickr from 'react-flatpickr'
-import { TextField, Button } from '@material-ui/core'
-
-import styled from 'styled-components'
-
-const StyledDatePicker = styled(Flatpickr)`
-  border: none;
-`
+import { filterEvents } from '../../store/actions/events'
 
 class TicketFilterInput extends Component {
   state = {
@@ -20,8 +11,6 @@ class TicketFilterInput extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    console.log('submit')
-
     this.props.filterEvents({ name: this.state.name, date: this.state.date })
   }
 
@@ -30,28 +19,34 @@ class TicketFilterInput extends Component {
     this.setState({
       [name]: value
     })
-    // this.props.filterEvents({ name: this.state.name, date: this.state.date })
   }
   render() {
-    const { date } = this.state
     return (
       <form onSubmit={this.handleSubmit}>
+        <Typography variant="headline">Filter</Typography>
         <TextField
           name="name"
           type="search"
+          label="Name"
           value={this.state.name}
           onChange={this.handleChange}
         />
-        Ends after:
-        <StyledDatePicker
-          value={date}
-          onChange={date => {
-            this.setState({ date: date[0] })
+        <TextField
+          className="input"
+          label="End Date"
+          type="date"
+          name="date"
+          required
+          InputLabelProps={{
+            shrink: true
           }}
+          onChange={this.handleChange}
         />
-        <Button color="secondary" variant="contained" type="sumbit">
-          Search
-        </Button>
+        <div style={{ marginTop: '2em' }}>
+          <Button color="secondary" variant="contained" type="sumbit">
+            Search
+          </Button>
+        </div>
       </form>
     )
   }

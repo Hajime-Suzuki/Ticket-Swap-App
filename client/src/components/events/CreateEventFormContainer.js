@@ -1,14 +1,11 @@
+import { Typography } from '@material-ui/core'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { createEvent } from '../../store/actions/events'
-import { addTicket } from '../../store/actions/tickets'
 import { checkJWT } from '../../lib/checkJWT'
-import { logout } from '../../store/actions/users'
-
 import history from '../../lib/history'
+import { createEvent } from '../../store/actions/events'
+import { logout } from '../../store/actions/users'
 import CreateEventForm from './CreateEventForm'
-import { Typography } from '@material-ui/core'
 
 class CreateEventFormContainer extends PureComponent {
   state = {}

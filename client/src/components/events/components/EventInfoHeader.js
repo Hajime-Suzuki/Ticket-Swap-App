@@ -1,9 +1,8 @@
-import React from 'react'
 import { Typography } from '@material-ui/core'
-import { formatDate } from '../../../lib/formatDateString'
+import React from 'react'
 import styled from 'styled-components'
+import { formatDate } from '../../../lib/formatDateString'
 import { spacing } from '../../../styles/styleConstants'
-import { TypographWithColor } from '../../../styles/components/StyledGridContainer'
 
 export const EventInfo = styled.div`
   && {

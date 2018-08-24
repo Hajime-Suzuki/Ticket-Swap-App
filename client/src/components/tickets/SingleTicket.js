@@ -1,16 +1,15 @@
+import { Button, Grid, Paper, Typography } from '@material-ui/core'
 import React, { PureComponent } from 'react'
-import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
-import { formatDate } from '../../lib/formatDateString'
-import SellTicketForm from './SellTicketForm'
 import { connect } from 'react-redux'
-import { updateTicket, deleteTicket } from '../../store/actions/tickets'
-import { Typography, Paper, Grid, Button } from '@material-ui/core'
-import EventInfoHeader from '../events/components/EventInfoHeader'
 import styled from 'styled-components'
+import { calculateFraudRisk, generateColor } from '../../lib/calculateFraudRisk'
+import { deleteTicket, updateTicket } from '../../store/actions/tickets'
+import { DeleteButton } from '../../styles/components/StyledGridContainer'
 import { spacing } from '../../styles/styleConstants'
 import CommentsList from '../comments/CommentsList'
+import EventInfoHeader from '../events/components/EventInfoHeader'
+import SellTicketForm from './SellTicketForm'
 
-import { DeleteButton } from '../../styles/components/StyledGridContainer'
 const StyledPaper = styled(Paper)`
   padding: ${spacing.padding.wider} 1em;
   .space {
@@ -89,7 +88,8 @@ class SingleTicket extends PureComponent {
             margin={spacing.normal}
           />
         ) : null}
-        {currentUser && currentUser.admin ? (
+        {ticket.user.id === (currentUser && currentUser.id) ||
+        (currentUser && currentUser.admin) ? (
           <DeleteButton
             style={{ marginTop: spacing.normal }}
             variant="contained"

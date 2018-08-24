@@ -1,9 +1,9 @@
 import {
-  SIGN_UP_FAIL,
-  SIGN_UP_SUCCES,
-  LOG_IN_FAIL,
+  CLEAR_ERROR_MESSAGES,
   LOGIN_SUCCESS,
-  CLEAR_ERROR_MESSAGES
+  LOG_IN_FAIL,
+  SIGN_UP_FAIL,
+  SIGN_UP_SUCCES
 } from '../constants/actionTypes'
 
 const initialState = {

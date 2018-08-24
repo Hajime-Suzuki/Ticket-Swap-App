@@ -29,7 +29,6 @@ class CustomNamingStrategy extends DefaultNamingStrategy
 }
 
 export const connectDatabase = async () => {
-  console.log(process.env.NODE_ENV)
   const dbSettings = await getConnectionOptions()
   const settings = { ...dbSettings, namingStrategy: new CustomNamingStrategy() }
 

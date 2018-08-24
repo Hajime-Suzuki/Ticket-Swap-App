@@ -1,6 +1,5 @@
+import { Button, Grid, TextField } from '@material-ui/core'
 import React from 'react'
-
-import { TextField, Button, Grid } from '@material-ui/core'
 import styled from 'styled-components'
 
 const StyledGrid = styled(Grid)`
@@ -13,13 +12,9 @@ const StyledGrid = styled(Grid)`
   }
 `
 const SellTicketForm = props => {
-  // console.log(props.descriptionState === undefined)
-  // console.log(props.priceState !== undefined)
   const { initial } = props
   return (
     <div>
-      {/* {props.message ? <p style={{ color: 'red' }}>{props.message}</p> : null} */}
-
       <form onSubmit={props.handleSubmit}>
         <StyledGrid
           margin={props.margin}
@@ -92,14 +87,5 @@ const SellTicketForm = props => {
     </div>
   )
 }
-
-// const mapSateToProps = (state, props) => ({
-//   currentEvent:
-//     state.events &&
-//     state.events
-//       .map(data => data.event)
-//       .find(event => event.id === Number(props.match.params.eventId)),
-//   currentUser: state.currentUser
-// })
 
 export default SellTicketForm

@@ -1,7 +1,7 @@
-import React from 'react'
 import { Typography } from '@material-ui/core'
-import { formatDate } from '../../../lib/formatDateString'
+import React from 'react'
 import styled from 'styled-components'
+import { formatDate } from '../../../lib/formatDateString'
 import { spacing } from '../../../styles/styleConstants'
 
 export const EventInfo = styled.div`

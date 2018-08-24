@@ -80,8 +80,6 @@ export default class EventController {
       .andWhere('e.endDate > :date', { date: date || new Date() })
       .getMany()
 
-    console.log(events)
-
     return {
       events
     }
@@ -125,8 +123,7 @@ export default class EventController {
 
     if (!event) throw new NotFoundError()
 
-    const res = await event.remove()
-    console.log(res)
+    await event.remove()
 
     return true
   }
