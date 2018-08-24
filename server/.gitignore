@@ -50,3 +50,4 @@ target
 .vscode
 
 .env
+.build

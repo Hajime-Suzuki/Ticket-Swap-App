@@ -8,13 +8,15 @@ import {
   Column,
   Entity,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  Unique
 } from 'typeorm'
 import { sign } from '../jwt/jwt'
 import Comment from './Comment'
 import Ticket from './Ticket'
 
 @Entity()
+@Unique(['email'])
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
