@@ -2,6 +2,10 @@
 
 ---
 
+Ticket Swap App with React, Redux, TypeScript, TypeORM, Routing-Controller
+
+---
+
 For the data base, please set following environmental variables.
 
 - DB_HOSTNAME
@@ -12,6 +16,7 @@ For the data base, please set following environmental variables.
 
 ---
 
-1. Run `yarn start` to start server.
-2. Go to `{server_address}/populate` to populate data.
-3. Run `yarn start` to start client.
+- Run `yarn install` to install all dependencies.
+- Run `yarn start` to start server.
+- Go to `localhost:4000/populate` to add fake data to your database.
+- Run `yarn start` to start client.
